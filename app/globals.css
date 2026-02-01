@@ -6,6 +6,7 @@
 
 @theme {
   --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
 
   /* Custom animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -237,4 +238,13 @@
       font-size: 1rem;
     }
   }
+}
+
+/* Hide scrollbar for carousel */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

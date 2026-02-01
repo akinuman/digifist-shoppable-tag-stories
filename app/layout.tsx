@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+import { Inter as FontSans, EB_Garamond as FontSerif } from "next/font/google";
+import "./globals.css";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   title: {
-    template: "%s | Schema UI Starter",
-    default: "Sanity Next.js Website | Schema UI Starter",
+    template: "%s | Shoppable Tag Stories",
+    default: "Shoppable Tag Stories",
   },
   openGraph: {
     images: [
@@ -33,6 +33,12 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
+const fontSerif = FontSerif({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-serif",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -44,7 +50,8 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
-          fontSans.variable
+          fontSans.variable,
+          fontSerif.variable,
         )}
       >
         <ThemeProvider

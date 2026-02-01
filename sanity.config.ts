@@ -6,15 +6,16 @@
 
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
-import { structureTool } from "sanity/structure";
+import { imageHotspotArrayPlugin } from "sanity-plugin-hotspot-array";
 import { presentationTool } from "sanity/presentation";
+import { structureTool } from "sanity/structure";
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
+import { resolve } from "@/sanity/presentation/resolve";
+import { codeInput } from "@sanity/code-input";
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schema } from "./sanity/schema";
-import { resolve } from "@/sanity/presentation/resolve";
 import { structure } from "./sanity/structure";
-import { codeInput } from "@sanity/code-input";
 
 // Define the actions that should be available for singleton documents
 const singletonActions = new Set([
@@ -61,5 +62,6 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
     codeInput(),
+    imageHotspotArrayPlugin(),
   ],
 });
