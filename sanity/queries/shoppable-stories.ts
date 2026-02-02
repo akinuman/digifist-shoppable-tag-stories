@@ -108,7 +108,17 @@ export const CATEGORY_WITH_POSTS_QUERY = groq`
           compareAtPrice,
           currency,
           "thumbnailUrl": thumbnail.asset->url,
-          shopUrl
+          shopUrl,
+          variants[] {
+            _key,
+            colorName,
+            "colorImageUrl": colorImage.asset->url,
+            sizes[] {
+              _key,
+              size,
+              stock
+            }
+          }
         }
       }
     },

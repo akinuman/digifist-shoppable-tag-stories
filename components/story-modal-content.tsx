@@ -7,13 +7,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ProductCard } from "./product-card";
+import { ProductDetailPanel } from "./product-detail-panel";
 import { ShoppableImage } from "./shoppable-image";
 
 // Extract nested types from the Sanity query result
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
 type Post = CategoryWithPosts["posts"][number];
 type ProductTag = NonNullable<Post["productTags"]>[number];
-type Product = NonNullable<ProductTag["product"]>;
 
 interface StoryModalContentProps {
   categoryName: string;
@@ -38,6 +38,11 @@ export function StoryModalContent({
   const [isVisible, setIsVisible] = useState(false);
 
   const currentPost = posts[activePostIndex];
+
+  // Find the currently selected product based on activeTagKey
+  const activeProduct = currentPost?.productTags?.find(
+    (tag) => tag._key === activeTagKey,
+  )?.product;
 
   // Animate in on mount
   useEffect(() => {
@@ -71,7 +76,7 @@ export function StoryModalContent({
   const content = (
     <div className="h-full flex flex-col bg-white">
       {/* Header - 130px height based on Figma */}
-      <div className="h-[130px] flex-shrink-0 flex items-center justify-between px-12 border-b border-gray-100">
+      <div className="h-[130px] shrink-0 flex items-center justify-between px-12 border-b border-gray-100">
         <div className="flex items-center gap-3">
           <h2 className="font-serif text-[28px] font-normal uppercase tracking-wide text-gray-900">
             #{categoryName.replace(/^#/, "")}
@@ -178,17 +183,31 @@ export function StoryModalContent({
           </div>
         </div>
 
-        {/* Right Section - Product Cards */}
-        <div className="w-[313px] flex-shrink-0 p-6 overflow-y-auto border-l border-gray-100">
-          <div className="flex flex-col gap-4">
-            {(currentPost.productTags || []).map((tag) => (
-              <ProductCard
-                key={tag._key}
-                product={tag.product}
-                isHighlighted={activeTagKey === tag._key}
-              />
-            ))}
-          </div>
+        {/* Right Section - Product Cards or Detail Panel */}
+        <div className="w-[313px] shrink-0 bg-white border-l border-gray-100 overflow-hidden">
+          {activeProduct ? (
+            <ProductDetailPanel
+              product={activeProduct}
+              onBack={() => setActiveTagKey(null)}
+            />
+          ) : (
+            <div className="p-6 h-full overflow-y-auto">
+              <div className="flex flex-col gap-4">
+                {(currentPost.productTags || []).map((tag) => (
+                  <button
+                    key={tag._key}
+                    onClick={() => setActiveTagKey(tag._key)}
+                    className="text-left w-full focus:outline-none"
+                  >
+                    <ProductCard
+                      product={tag.product}
+                      isHighlighted={activeTagKey === tag._key}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
