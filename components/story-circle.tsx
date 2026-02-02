@@ -1,24 +1,23 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 
 interface StoryCircleProps {
   imageUrl: string;
   name: string;
+  slug: string;
   isActive?: boolean;
-  onClick?: () => void;
 }
 
 export function StoryCircle({
   imageUrl,
   name,
+  slug,
   isActive = false,
-  onClick,
 }: StoryCircleProps) {
   return (
-    <button
-      onClick={onClick}
+    <Link
+      href={`/category/${slug}`}
       className="flex flex-col items-center gap-3 group focus:outline-none"
     >
       {/* 200x200 container with gradient border */}
@@ -26,7 +25,7 @@ export function StoryCircle({
         className={cn(
           "relative w-[200px] h-[200px] rounded-full p-[3px]",
           // Instagram-style gradient border
-          "bg-linear-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]",
+          "bg-gradient-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]",
         )}
       >
         {/* White ring (thin) */}
@@ -53,6 +52,6 @@ export function StoryCircle({
       >
         {name}
       </span>
-    </button>
+    </Link>
   );
 }

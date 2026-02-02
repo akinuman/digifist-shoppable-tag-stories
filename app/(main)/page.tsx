@@ -15,7 +15,8 @@ async function getBrandData() {
         _id,
         name,
         "slug": slug.current,
-        "thumbnailUrl": thumbnail.asset->url
+        "thumbnailUrl": thumbnail.asset->url,
+        "postCount": count(*[_type == "shoppablePost" && category._ref == ^._id])
       }
     }
   `;
@@ -42,13 +43,13 @@ export default async function Page() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       <ShoppableStoriesSection
         brandName={brandData.name}
         instagramHandle={brandData.instagramHandle}
         instagramUrl={brandData.instagramUrl}
         categories={brandData.categories || []}
       />
-    </main>
+    </div>
   );
 }

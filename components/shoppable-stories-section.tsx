@@ -1,5 +1,3 @@
-"use client";
-
 import { StoryCircle } from "./story-circle";
 
 interface Category {
@@ -7,6 +5,7 @@ interface Category {
   name: string;
   slug: string;
   thumbnailUrl: string;
+  postCount?: number;
 }
 
 interface ShoppableStoriesSectionProps {
@@ -14,7 +13,6 @@ interface ShoppableStoriesSectionProps {
   instagramHandle?: string;
   instagramUrl?: string;
   categories: Category[];
-  onCategoryClick?: (category: Category) => void;
 }
 
 export function ShoppableStoriesSection({
@@ -22,7 +20,6 @@ export function ShoppableStoriesSection({
   instagramHandle,
   instagramUrl,
   categories,
-  onCategoryClick,
 }: ShoppableStoriesSectionProps) {
   return (
     <section className="w-full bg-white py-[160px] px-[56px]">
@@ -64,12 +61,12 @@ export function ShoppableStoriesSection({
               key={category._id}
               imageUrl={category.thumbnailUrl}
               name={category.name}
-              onClick={() => onCategoryClick?.(category)}
+              slug={category.slug}
             />
           ))}
         </div>
 
-        {/* Arrow icons placeholder - you will add from design */}
+        {/* Arrow icons */}
         <div className="flex items-center justify-end gap-4 mt-6">
           <img
             src="/icons/left-arrow.svg"
