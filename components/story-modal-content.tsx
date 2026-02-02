@@ -169,12 +169,7 @@ export function StoryModalContent({
             <ShoppableImage
               imageUrl={currentPost.imageUrl}
               alt={currentPost.title}
-              productTags={(currentPost.productTags || []).map((tag) => ({
-                _key: tag._key,
-                x: tag.x,
-                y: tag.y,
-                productId: tag.product?._id,
-              }))}
+              productTags={currentPost.productTags}
               activeTagKey={activeTagKey}
               onTagClick={(key) =>
                 setActiveTagKey(key === activeTagKey ? null : key)
@@ -216,9 +211,15 @@ export function StoryModalContent({
   // Full page - same drawer appearance as modal
   if (isFullPage) {
     return (
-      <div className="min-h-screen bg-black/40 flex items-end justify-center">
+      <div className="relative min-h-screen flex items-end justify-center overscroll-none">
+        {/* Backdrop Link for full page refresh */}
+        <Link
+          href="/"
+          className="absolute inset-0 bg-black/40 z-0"
+          aria-label="Back to home"
+        />
         <div
-          className="w-full bg-white rounded-t-2xl overflow-hidden"
+          className="relative w-full bg-white rounded-t-2xl overflow-hidden z-10"
           style={{ height: "850px", maxHeight: "90vh" }}
         >
           {content}

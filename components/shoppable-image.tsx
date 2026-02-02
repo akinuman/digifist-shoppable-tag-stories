@@ -1,10 +1,16 @@
 "use client";
 
+import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
+import { Plus } from "lucide-react";
 import Image from "next/image";
 
+type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
+type Post = CategoryWithPosts["posts"][number];
+type ProductTag = NonNullable<Post["productTags"]>[number];
+
 interface ProductTagDotProps {
-  x: number; // 0-1 percentage
-  y: number; // 0-1 percentage
+  x: number;
+  y: number;
   isActive?: boolean;
   onClick?: () => void;
 }
@@ -18,30 +24,18 @@ export function ProductTagDot({
   return (
     <button
       onClick={onClick}
-      className={`absolute w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all ${
+      className={`absolute w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all shadow-sm z-10 ${
         isActive
-          ? "bg-pink-500 text-white scale-110"
-          : "bg-white/90 text-gray-600 hover:bg-white hover:scale-110"
+          ? "bg-black text-white scale-110"
+          : "bg-white text-black hover:scale-110"
       }`}
       style={{
-        left: `${x * 100}%`,
-        top: `${y * 100}%`,
+        left: `${x}%`,
+        top: `${y}%`,
       }}
       aria-label="View product"
     >
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M12 4v16m8-8H4"
-        />
-      </svg>
+      <Plus className="w-4 h-4" />
     </button>
   );
 }
@@ -49,12 +43,7 @@ export function ProductTagDot({
 interface ShoppableImageProps {
   imageUrl: string | null;
   alt: string | null;
-  productTags: Array<{
-    _key: string;
-    x: number | null;
-    y: number | null;
-    productId?: string;
-  }>;
+  productTags: Post["productTags"];
   activeTagKey?: string | null;
   onTagClick?: (tagKey: string) => void;
 }
@@ -66,31 +55,24 @@ export function ShoppableImage({
   activeTagKey,
   onTagClick,
 }: ShoppableImageProps) {
-  // Filter tags with valid coordinates (x and y must be numbers between 0-1)
-  const validTags = productTags.filter(
-    (tag): tag is typeof tag & { x: number; y: number } =>
-      typeof tag.x === "number" && typeof tag.y === "number",
-  );
-
-  // Debug: log the tags to see what's coming through
-  console.log("Product tags received:", productTags);
-  console.log("Valid tags with coordinates:", validTags);
+  // Filter tags with valid coordinates
+  const validTags = (productTags || []).filter((tag) => tag.x && tag.y);
 
   if (!imageUrl) {
     return (
       <div className="relative w-full h-full bg-gray-100 flex items-center justify-center">
-        <p className="text-gray-400">No image available</p>
+        <p className="text-gray-400 font-sans text-sm">No image available</p>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full group overflow-hidden bg-gray-50">
       <Image
         src={imageUrl}
-        alt={alt ?? ""}
+        alt={alt ?? "Shoppable look"}
         fill
-        className="object-cover"
+        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
         priority
       />
 
@@ -98,17 +80,17 @@ export function ShoppableImage({
       {validTags.map((tag) => (
         <ProductTagDot
           key={tag._key}
-          x={tag.x}
-          y={tag.y}
+          x={tag.x || 0}
+          y={tag.y || 0}
           isActive={activeTagKey === tag._key}
           onClick={() => onTagClick?.(tag._key)}
         />
       ))}
 
       {/* Show message if no valid tags */}
-      {productTags.length > 0 && validTags.length === 0 && (
-        <div className="absolute top-4 left-4 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">
-          Tags exist but missing x/y coordinates
+      {productTags && productTags.length > 0 && validTags.length === 0 && (
+        <div className="absolute top-4 left-4 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded z-20">
+          Tags exist but missing or invalid coordinates
         </div>
       )}
     </div>
