@@ -24,7 +24,7 @@ export function ProductTagDot({
   return (
     <button
       onClick={onClick}
-      className={`absolute w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all shadow-sm z-10 ${
+      className={`absolute cursor-pointer w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all shadow-sm z-10 ${
         isActive
           ? "bg-black text-white scale-110"
           : "bg-white text-black hover:scale-110"
@@ -72,7 +72,7 @@ export function ShoppableImage({
         src={imageUrl}
         alt={alt ?? "Shoppable look"}
         fill
-        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+        className="object-cover transition-transform duration-500"
         priority
       />
 

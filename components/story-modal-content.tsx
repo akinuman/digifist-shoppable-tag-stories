@@ -102,13 +102,10 @@ export function StoryModalContent({
         )}
       </div>
 
-      {/* Main Content - 3 Columns */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Section - Post Info */}
-        <div className="w-[280px] flex-shrink-0 p-8 overflow-y-auto">
-          {/* Brand/Profile with gradient border */}
+        <div className="w-[280px] hrink-0 p-8 overflow-y-auto">
           <div className="flex items-center gap-3 mb-6">
-            <div className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]">
+            <div className="relative w-12 h-12 rounded-full p-[2px] bg-linear-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]">
               {brandLogoUrl ? (
                 <div className="w-full h-full rounded-full overflow-hidden bg-white">
                   <Image

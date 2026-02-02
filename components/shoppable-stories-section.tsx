@@ -1,7 +1,6 @@
 import type { FIRST_BRAND_WITH_CATEGORIES_QUERYResult } from "@/sanity.types";
 import { StoryCircle } from "./story-circle";
 
-// Extract the Category type from the Sanity query result
 type BrandWithCategories = NonNullable<FIRST_BRAND_WITH_CATEGORIES_QUERYResult>;
 type Category = BrandWithCategories["categories"][number];
 
@@ -20,9 +19,7 @@ export function ShoppableStoriesSection({
 }: ShoppableStoriesSectionProps) {
   return (
     <section className="w-full bg-white py-[160px] px-[56px]">
-      {/* Header */}
       <div className="flex items-center justify-between mb-8">
-        {/* Brand Name */}
         <h2
           className="font-serif text-[32px] font-normal uppercase text-gray-900"
           style={{
@@ -33,7 +30,6 @@ export function ShoppableStoriesSection({
           {brandName}
         </h2>
 
-        {/* Follow Button */}
         {instagramHandle && (
           <a
             href={instagramUrl || `https://instagram.com/${instagramHandle}`}
@@ -50,7 +46,6 @@ export function ShoppableStoriesSection({
         )}
       </div>
 
-      {/* Story Circles Row */}
       <div className="relative">
         <div className="flex justify-between overflow-x-auto scrollbar-hide pb-4">
           {categories.map((category) => (

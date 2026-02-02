@@ -1,34 +1,9 @@
 import { ShoppableStoriesSection } from "@/components/shoppable-stories-section";
-import { sanityFetch } from "@/sanity/lib/live";
-import { groq } from "next-sanity";
-
-// Server-side fetch with live revalidation - proper SEO approach
-async function getBrandData() {
-  const query = groq`
-    *[_type == "brand"][0] {
-      _id,
-      name,
-      displayName,
-      instagramHandle,
-      instagramUrl,
-      "categories": *[_type == "storyCategory" && brand._ref == ^._id] | order(order asc) {
-        _id,
-        name,
-        "slug": slug.current,
-        "thumbnailUrl": thumbnail.asset->url,
-        "postCount": count(*[_type == "shoppablePost" && category._ref == ^._id])
-      }
-    }
-  `;
-
-  const { data } = await sanityFetch({ query });
-  return data;
-}
+import { fetchFirstBrandWithCategories } from "@/sanity/lib/fetch";
 
 export default async function Page() {
-  const brandData = await getBrandData();
+  const brandData = await fetchFirstBrandWithCategories();
 
-  // If no brand data, show empty state
   if (!brandData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
