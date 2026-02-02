@@ -47,12 +47,12 @@ export function ProductTagDot({
 }
 
 interface ShoppableImageProps {
-  imageUrl: string;
-  alt: string;
+  imageUrl: string | null;
+  alt: string | null;
   productTags: Array<{
     _key: string;
-    x: number;
-    y: number;
+    x: number | null;
+    y: number | null;
     productId?: string;
   }>;
   activeTagKey?: string | null;
@@ -68,16 +68,31 @@ export function ShoppableImage({
 }: ShoppableImageProps) {
   // Filter tags with valid coordinates (x and y must be numbers between 0-1)
   const validTags = productTags.filter(
-    (tag) => typeof tag.x === "number" && typeof tag.y === "number",
+    (tag): tag is typeof tag & { x: number; y: number } =>
+      typeof tag.x === "number" && typeof tag.y === "number",
   );
 
   // Debug: log the tags to see what's coming through
   console.log("Product tags received:", productTags);
   console.log("Valid tags with coordinates:", validTags);
 
+  if (!imageUrl) {
+    return (
+      <div className="relative w-full h-full bg-gray-100 flex items-center justify-center">
+        <p className="text-gray-400">No image available</p>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-full">
-      <Image src={imageUrl} alt={alt} fill className="object-cover" priority />
+      <Image
+        src={imageUrl}
+        alt={alt ?? ""}
+        fill
+        className="object-cover"
+        priority
+      />
 
       {/* Product Tag Dots */}
       {validTags.map((tag) => (

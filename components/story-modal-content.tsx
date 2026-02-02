@@ -1,40 +1,19 @@
 "use client";
 
+import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
 import { Instagram, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ProductCard } from "./product-card";
 import { ShoppableImage } from "./shoppable-image";
 
-interface Product {
-  _id: string;
-  title: string;
-  price: number;
-  compareAtPrice?: number | null;
-  currency?: string;
-  thumbnailUrl: string;
-  shopUrl?: string;
-}
-
-interface ProductTag {
-  _key: string;
-  x: number;
-  y: number;
-  product: Product;
-}
-
-interface Post {
-  _id: string;
-  title: string;
-  imageUrl: string;
-  profileImageUrl?: string;
-  brandName?: string;
-  caption?: string;
-  hashtags?: string[];
-  instagramUrl?: string;
-  productTags: ProductTag[];
-}
+// Extract nested types from the Sanity query result
+type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
+type Post = CategoryWithPosts["posts"][number];
+type ProductTag = NonNullable<Post["productTags"]>[number];
+type Product = NonNullable<ProductTag["product"]>;
 
 interface StoryModalContentProps {
   categoryName: string;
@@ -100,12 +79,13 @@ export function StoryModalContent({
           <span className="text-gray-400 text-base">{postCount} posts</span>
         </div>
         {isFullPage ? (
-          <a
+          <Link
             href="/"
-            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors text-sm"
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            aria-label="Close"
           >
-            ← Back to Stories
-          </a>
+            <X className="w-6 h-6" />
+          </Link>
         ) : (
           <button
             onClick={handleClose}
@@ -141,7 +121,7 @@ export function StoryModalContent({
               )}
             </div>
             <span className="font-medium text-sm text-gray-900">
-              {currentPost.brandName || brandName || "Fae House Swimwear"}
+              {brandName || "Fae House Swimwear"}
             </span>
           </div>
 
@@ -204,12 +184,7 @@ export function StoryModalContent({
             {(currentPost.productTags || []).map((tag) => (
               <ProductCard
                 key={tag._key}
-                title={tag.product?.title || "Product"}
-                price={tag.product?.price || 0}
-                compareAtPrice={tag.product?.compareAtPrice}
-                currency={tag.product?.currency || "$"}
-                thumbnailUrl={tag.product?.thumbnailUrl || ""}
-                shopUrl={tag.product?.shopUrl}
+                product={tag.product}
                 isHighlighted={activeTagKey === tag._key}
               />
             ))}

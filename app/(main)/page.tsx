@@ -45,7 +45,7 @@ export default async function Page() {
   return (
     <div className="min-h-screen bg-white">
       <ShoppableStoriesSection
-        brandName={brandData.name}
+        brandName={brandData.name ?? ""}
         instagramHandle={brandData.instagramHandle}
         instagramUrl={brandData.instagramUrl}
         categories={brandData.categories || []}

@@ -1,86 +1,16 @@
-import { sanityFetch } from "@/sanity/lib/live";
-import { PAGE_QUERY, PAGES_SLUGS_QUERY } from "@/sanity/queries/page";
-import { NAVIGATION_QUERY } from "@/sanity/queries/navigation";
-import { SETTINGS_QUERY } from "@/sanity/queries/settings";
 import {
-  POST_QUERY,
-  POSTS_QUERY,
-  POSTS_SLUGS_QUERY,
-} from "@/sanity/queries/post";
-import {
-  PAGE_QUERYResult,
-  PAGES_SLUGS_QUERYResult,
-  POST_QUERYResult,
-  POSTS_QUERYResult,
-  POSTS_SLUGS_QUERYResult,
-  NAVIGATION_QUERYResult,
+  CATEGORY_SLUGS_QUERYResult,
+  CATEGORY_WITH_POSTS_QUERYResult,
+  FIRST_BRAND_WITH_CATEGORIES_QUERYResult,
   SETTINGS_QUERYResult,
 } from "@/sanity.types";
-
-export const fetchSanityPageBySlug = async ({
-  slug,
-}: {
-  slug: string;
-}): Promise<PAGE_QUERYResult> => {
-  const { data } = await sanityFetch({
-    query: PAGE_QUERY,
-    params: { slug },
-  });
-
-  return data;
-};
-
-export const fetchSanityPagesStaticParams =
-  async (): Promise<PAGES_SLUGS_QUERYResult> => {
-    const { data } = await sanityFetch({
-      query: PAGES_SLUGS_QUERY,
-      perspective: "published",
-      stega: false,
-    });
-
-    return data;
-  };
-
-export const fetchSanityPosts = async (): Promise<POSTS_QUERYResult> => {
-  const { data } = await sanityFetch({
-    query: POSTS_QUERY,
-  });
-
-  return data;
-};
-
-export const fetchSanityPostBySlug = async ({
-  slug,
-}: {
-  slug: string;
-}): Promise<POST_QUERYResult> => {
-  const { data } = await sanityFetch({
-    query: POST_QUERY,
-    params: { slug },
-  });
-
-  return data;
-};
-
-export const fetchSanityPostsStaticParams =
-  async (): Promise<POSTS_SLUGS_QUERYResult> => {
-    const { data } = await sanityFetch({
-      query: POSTS_SLUGS_QUERY,
-      perspective: "published",
-      stega: false,
-    });
-
-    return data;
-  };
-
-export const fetchSanityNavigation =
-  async (): Promise<NAVIGATION_QUERYResult> => {
-    const { data } = await sanityFetch({
-      query: NAVIGATION_QUERY,
-    });
-
-    return data;
-  };
+import { sanityFetch } from "@/sanity/lib/live";
+import { SETTINGS_QUERY } from "@/sanity/queries/settings";
+import {
+  CATEGORY_SLUGS_QUERY,
+  CATEGORY_WITH_POSTS_QUERY,
+  FIRST_BRAND_WITH_CATEGORIES_QUERY,
+} from "@/sanity/queries/shoppable-stories";
 
 export const fetchSanitySettings = async (): Promise<SETTINGS_QUERYResult> => {
   const { data } = await sanityFetch({
@@ -89,3 +19,48 @@ export const fetchSanitySettings = async (): Promise<SETTINGS_QUERYResult> => {
 
   return data;
 };
+
+// =============================================================================
+// SHOPPABLE STORIES - FETCH FUNCTIONS
+// =============================================================================
+
+/**
+ * Fetch the first brand with all its story categories (for homepage)
+ */
+export const fetchFirstBrandWithCategories =
+  async (): Promise<FIRST_BRAND_WITH_CATEGORIES_QUERYResult> => {
+    const { data } = await sanityFetch({
+      query: FIRST_BRAND_WITH_CATEGORIES_QUERY,
+    });
+
+    return data;
+  };
+
+/**
+ * Fetch a category with its posts and brand info
+ * @param slug - The category slug
+ */
+export const fetchCategoryWithPosts = async (
+  slug: string,
+): Promise<CATEGORY_WITH_POSTS_QUERYResult> => {
+  const { data } = await sanityFetch({
+    query: CATEGORY_WITH_POSTS_QUERY,
+    params: { slug },
+  });
+
+  return data;
+};
+
+/**
+ * Fetch all category slugs (for static params generation)
+ */
+export const fetchCategorySlugs =
+  async (): Promise<CATEGORY_SLUGS_QUERYResult> => {
+    const { data } = await sanityFetch({
+      query: CATEGORY_SLUGS_QUERY,
+      perspective: "published",
+      stega: false,
+    });
+
+    return data || [];
+  };

@@ -1,62 +1,14 @@
 import { StoryModalContent } from "@/components/story-modal-content";
-import { sanityFetch } from "@/sanity/lib/live";
-import { groq } from "next-sanity";
+import { fetchCategorySlugs, fetchCategoryWithPosts } from "@/sanity/lib/fetch";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-async function getCategoryWithPosts(slug: string) {
-  const query = groq`
-    *[_type == "storyCategory" && slug.current == $slug][0] {
-      _id,
-      name,
-      "slug": slug.current,
-      "thumbnailUrl": thumbnail.asset->url,
-      brand-> {
-        _id,
-        name,
-        displayName,
-        "logoUrl": logo.asset->url,
-        instagramHandle
-      },
-      "posts": *[_type == "shoppablePost" && category._ref == ^._id] | order(order asc) {
-        _id,
-        title,
-        "imageUrl": mainImage.asset->url,
-        "profileImageUrl": profileImage.asset->url,
-        brandName,
-        caption,
-        hashtags,
-        instagramUrl,
-        productTags[] {
-          _key,
-          x,
-          y,
-          product-> {
-            _id,
-            title,
-            "slug": slug.current,
-            price,
-            compareAtPrice,
-            currency,
-            "thumbnailUrl": thumbnail.asset->url,
-            shopUrl
-          }
-        }
-      },
-      "postCount": count(*[_type == "shoppablePost" && category._ref == ^._id])
-    }
-  `;
-
-  const { data } = await sanityFetch({ query, params: { slug } });
-  return data;
-}
-
 // Full page version (for direct URL access or SEO)
 export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
-  const category = await getCategoryWithPosts(slug);
+  const category = await fetchCategoryWithPosts(slug);
 
   if (!category) {
     return (
@@ -69,11 +21,13 @@ export default async function CategoryPage({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-white">
       <StoryModalContent
-        categoryName={category.name}
+        categoryName={category.name ?? ""}
         postCount={category.postCount}
         posts={category.posts || []}
-        brandName={category.brand?.displayName || category.brand?.name}
-        brandLogoUrl={category.brand?.logoUrl}
+        brandName={
+          category.brand?.displayName ?? category.brand?.name ?? undefined
+        }
+        brandLogoUrl={category.brand?.logoUrl ?? undefined}
         isFullPage
       />
     </main>
@@ -82,23 +36,17 @@ export default async function CategoryPage({ params }: PageProps) {
 
 // Generate static paths for all categories
 export async function generateStaticParams() {
-  const query = groq`*[_type == "storyCategory"]{ "slug": slug.current }`;
-  const { data } = await sanityFetch({
-    query,
-    perspective: "published",
-    stega: false,
-  });
-  return data || [];
+  const slugs = await fetchCategorySlugs();
+  return slugs;
 }
 
 // SEO metadata
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const query = groq`*[_type == "storyCategory" && slug.current == $slug][0]{ name }`;
-  const { data } = await sanityFetch({ query, params: { slug } });
+  const category = await fetchCategoryWithPosts(slug);
 
   return {
-    title: data?.name ? `#${data.name} | Shop The Look` : "Category",
-    description: `Shop products from our ${data?.name} collection`,
+    title: category?.name ? `#${category.name} | Shop The Look` : "Category",
+    description: `Shop products from our ${category?.name} collection`,
   };
 }

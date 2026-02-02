@@ -1,20 +1,27 @@
 import { cn } from "@/lib/utils";
+import type { FIRST_BRAND_WITH_CATEGORIES_QUERYResult } from "@/sanity.types";
 import Image from "next/image";
 import Link from "next/link";
 
+// Extract the Category type from the Sanity query result
+type BrandWithCategories = NonNullable<FIRST_BRAND_WITH_CATEGORIES_QUERYResult>;
+type Category = BrandWithCategories["categories"][number];
+
 interface StoryCircleProps {
-  imageUrl: string;
-  name: string;
-  slug: string;
+  category: Category;
   isActive?: boolean;
 }
 
-export function StoryCircle({
-  imageUrl,
-  name,
-  slug,
-  isActive = false,
-}: StoryCircleProps) {
+export function StoryCircle({ category, isActive = false }: StoryCircleProps) {
+  const { name, slug, thumbnailUrl } = category;
+
+  // Handle missing data gracefully
+  if (!slug || !thumbnailUrl) {
+    return null;
+  }
+
+  const displayName = name ?? "Category";
+
   return (
     <Link
       href={`/category/${slug}`}
@@ -34,8 +41,8 @@ export function StoryCircle({
         {/* Image fills most of the circle */}
         <div className="absolute inset-[6px] rounded-full overflow-hidden">
           <Image
-            src={imageUrl}
-            alt={name}
+            src={thumbnailUrl}
+            alt={displayName}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-110"
           />
@@ -50,7 +57,7 @@ export function StoryCircle({
           lineHeight: "160%",
         }}
       >
-        {name}
+        {displayName}
       </span>
     </Link>
   );

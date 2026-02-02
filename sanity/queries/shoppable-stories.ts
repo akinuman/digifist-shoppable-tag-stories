@@ -7,7 +7,7 @@ import { groq } from "next-sanity";
 /**
  * Get the first brand with all its story categories (for homepage)
  */
-export const firstBrandWithCategoriesQuery = groq`
+export const FIRST_BRAND_WITH_CATEGORIES_QUERY = groq`
   *[_type == "brand"][0] {
     _id,
     name,
@@ -28,9 +28,9 @@ export const firstBrandWithCategoriesQuery = groq`
 
 /**
  * Get a brand by slug with all its story categories
- * Usage: getBrandWithCategories(client, { brandSlug: 'faehouse' })
+ * Usage: params: { brandSlug: 'faehouse' }
  */
-export const brandWithCategoriesQuery = groq`
+export const BRAND_WITH_CATEGORIES_QUERY = groq`
   *[_type == "brand" && slug.current == $brandSlug][0] {
     _id,
     name,
@@ -53,7 +53,7 @@ export const brandWithCategoriesQuery = groq`
 /**
  * Get all brands (for listing)
  */
-export const allBrandsQuery = groq`
+export const ALL_BRANDS_QUERY = groq`
   *[_type == "brand"] | order(name asc) {
     _id,
     name,
@@ -71,10 +71,10 @@ export const allBrandsQuery = groq`
 
 /**
  * Get a category with its posts and brand info
- * Usage: getCategoryWithPosts(client, { categorySlug: 'beachlife' })
+ * Usage: params: { slug: 'beachlife' }
  */
-export const categoryWithPostsQuery = groq`
-  *[_type == "storyCategory" && slug.current == $categorySlug][0] {
+export const CATEGORY_WITH_POSTS_QUERY = groq`
+  *[_type == "storyCategory" && slug.current == $slug][0] {
     _id,
     name,
     "slug": slug.current,
@@ -91,7 +91,8 @@ export const categoryWithPostsQuery = groq`
       _id,
       title,
       "imageUrl": mainImage.asset->url,
-      "imageAspectRatio": mainImage.asset->metadata.dimensions.aspectRatio,
+      "profileImageUrl": profileImage.asset->url,
+      brandName,
       caption,
       hashtags,
       instagramUrl,
@@ -115,15 +116,22 @@ export const categoryWithPostsQuery = groq`
   }
 `;
 
+/**
+ * Get all category slugs (for static params)
+ */
+export const CATEGORY_SLUGS_QUERY = groq`
+  *[_type == "storyCategory"]{ "slug": slug.current }
+`;
+
 // =============================================================================
 // PRODUCT QUERIES
 // =============================================================================
 
 /**
  * Get a single product with all variants
- * Usage: getProduct(client, { productSlug: 'sheridan-top-bloom' })
+ * Usage: params: { productSlug: 'sheridan-top-bloom' }
  */
-export const productQuery = groq`
+export const PRODUCT_QUERY = groq`
   *[_type == "product" && slug.current == $productSlug][0] {
     _id,
     title,
@@ -156,8 +164,9 @@ export const productQuery = groq`
 
 /**
  * Get product by ID (for product tags)
+ * Usage: params: { productId: 'abc123' }
  */
-export const productByIdQuery = groq`
+export const PRODUCT_BY_ID_QUERY = groq`
   *[_type == "product" && _id == $productId][0] {
     _id,
     title,
@@ -186,7 +195,7 @@ export const productByIdQuery = groq`
 /**
  * Get all products (for admin/listing)
  */
-export const allProductsQuery = groq`
+export const ALL_PRODUCTS_QUERY = groq`
   *[_type == "product"] | order(title asc) {
     _id,
     title,
@@ -208,8 +217,9 @@ export const allProductsQuery = groq`
 
 /**
  * Get a single post with all details
+ * Usage: params: { postId: 'abc123' }
  */
-export const shoppablePostQuery = groq`
+export const SHOPPABLE_POST_QUERY = groq`
   *[_type == "shoppablePost" && _id == $postId][0] {
     _id,
     title,

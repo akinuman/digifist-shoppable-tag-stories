@@ -1,17 +1,14 @@
+import type { FIRST_BRAND_WITH_CATEGORIES_QUERYResult } from "@/sanity.types";
 import { StoryCircle } from "./story-circle";
 
-interface Category {
-  _id: string;
-  name: string;
-  slug: string;
-  thumbnailUrl: string;
-  postCount?: number;
-}
+// Extract the Category type from the Sanity query result
+type BrandWithCategories = NonNullable<FIRST_BRAND_WITH_CATEGORIES_QUERYResult>;
+type Category = BrandWithCategories["categories"][number];
 
 interface ShoppableStoriesSectionProps {
   brandName: string;
-  instagramHandle?: string;
-  instagramUrl?: string;
+  instagramHandle?: string | null;
+  instagramUrl?: string | null;
   categories: Category[];
 }
 
@@ -57,12 +54,7 @@ export function ShoppableStoriesSection({
       <div className="relative">
         <div className="flex justify-between overflow-x-auto scrollbar-hide pb-4">
           {categories.map((category) => (
-            <StoryCircle
-              key={category._id}
-              imageUrl={category.thumbnailUrl}
-              name={category.name}
-              slug={category.slug}
-            />
+            <StoryCircle key={category._id} category={category} />
           ))}
         </div>
 
