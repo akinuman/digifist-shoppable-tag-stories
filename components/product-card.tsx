@@ -32,12 +32,17 @@ export function ProductCard({
   const { title, price, compareAtPrice, currency, thumbnailUrl, shopUrl } =
     product;
 
+  console.log(currency);
+
   const hasDiscount =
     compareAtPrice != null && price != null && compareAtPrice > price;
+
   const displayTitle = title ?? "Product";
+
   const displayCurrency = currency
     ? (currencySymbols[currency] ?? currency)
     : "$";
+
   const displayPrice = price ?? 0;
 
   return (

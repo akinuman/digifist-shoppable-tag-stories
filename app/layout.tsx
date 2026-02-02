@@ -1,5 +1,4 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans, EB_Garamond as FontSerif } from "next/font/google";
@@ -62,7 +61,6 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
-        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
