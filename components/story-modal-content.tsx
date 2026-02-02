@@ -10,7 +10,6 @@ import { ProductCard } from "./product-card";
 import { ProductDetailPanel } from "./product-detail-panel";
 import { ShoppableImage } from "./shoppable-image";
 
-// Extract nested types from the Sanity query result
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
 type Post = CategoryWithPosts["posts"][number];
 type ProductTag = NonNullable<Post["productTags"]>[number];
@@ -39,12 +38,10 @@ export function StoryModalContent({
 
   const currentPost = posts[activePostIndex];
 
-  // Find the currently selected product based on activeTagKey
   const activeProduct = currentPost?.productTags?.find(
     (tag) => tag._key === activeTagKey,
   )?.product;
 
-  // Animate in on mount
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -56,7 +53,6 @@ export function StoryModalContent({
     }, 300);
   };
 
-  // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") handleClose();
@@ -75,8 +71,7 @@ export function StoryModalContent({
 
   const content = (
     <div className="h-full flex flex-col bg-white">
-      {/* Header - 130px height based on Figma */}
-      <div className="h-[130px] shrink-0 flex items-center justify-between px-12 border-b border-gray-100">
+      <div className="h-[130px] shrink-0 flex items-center justify-between px-12 border-gray-100">
         <div className="flex items-center gap-3">
           <h2 className="font-serif text-[28px] font-normal uppercase tracking-wide text-gray-900">
             #{categoryName.replace(/^#/, "")}
@@ -127,7 +122,6 @@ export function StoryModalContent({
             </span>
           </div>
 
-          {/* Caption */}
           {currentPost.caption && (
             <p className="text-sm text-gray-600 leading-relaxed mb-4">
               {currentPost.caption}
@@ -135,14 +129,12 @@ export function StoryModalContent({
             </p>
           )}
 
-          {/* Hashtags */}
           {currentPost.hashtags && currentPost.hashtags.length > 0 && (
             <p className="text-sm text-pink-500 leading-relaxed mb-8">
               {currentPost.hashtags.map((tag) => `#${tag}`).join(" ")}
             </p>
           )}
 
-          {/* View on Instagram */}
           {currentPost.instagramUrl && (
             <a
               href={currentPost.instagramUrl}
@@ -160,7 +152,6 @@ export function StoryModalContent({
           )}
         </div>
 
-        {/* Middle Section - Shoppable Image */}
         <div className="flex-1 flex items-center justify-center bg-white p-4">
           <div className="relative w-full max-w-[558px] aspect-square">
             <ShoppableImage
@@ -175,8 +166,7 @@ export function StoryModalContent({
           </div>
         </div>
 
-        {/* Right Section - Product Cards or Detail Panel */}
-        <div className="w-[313px] shrink-0 bg-white border-l border-gray-100 overflow-hidden">
+        <div className="w-[313px] shrink-0 bg-white overflow-hidden">
           {activeProduct ? (
             <ProductDetailPanel
               product={activeProduct}
@@ -205,11 +195,9 @@ export function StoryModalContent({
     </div>
   );
 
-  // Full page - same drawer appearance as modal
   if (isFullPage) {
     return (
       <div className="relative min-h-screen flex items-end justify-center overscroll-none">
-        {/* Backdrop Link for full page refresh */}
         <Link
           href="/"
           className="absolute inset-0 bg-black/40 z-0"
@@ -225,10 +213,8 @@ export function StoryModalContent({
     );
   }
 
-  // Modal wrapper with backdrop
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`fixed inset-0 bg-black/40 z-50 transition-opacity duration-300 ${
           isVisible ? "opacity-100" : "opacity-0"
@@ -236,7 +222,6 @@ export function StoryModalContent({
         onClick={handleClose}
       />
 
-      {/* Modal Drawer from bottom */}
       <div
         className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl overflow-hidden transition-transform duration-300 ease-out ${
           isVisible ? "translate-y-0" : "translate-y-full"

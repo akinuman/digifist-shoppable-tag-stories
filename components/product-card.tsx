@@ -2,7 +2,6 @@ import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
 import { ShoppingBag } from "lucide-react";
 import Image from "next/image";
 
-// Extract the Product type from the Sanity query result
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
 type Post = CategoryWithPosts["posts"][number];
 type ProductTag = NonNullable<Post["productTags"]>[number];
@@ -13,7 +12,6 @@ interface ProductCardProps {
   isHighlighted?: boolean;
 }
 
-// Currency symbol mapping
 const currencySymbols: Record<string, string> = {
   USD: "$",
   EUR: "€",
@@ -32,8 +30,6 @@ export function ProductCard({
   const { title, price, compareAtPrice, currency, thumbnailUrl, shopUrl } =
     product;
 
-  console.log(currency);
-
   const hasDiscount =
     compareAtPrice != null && price != null && compareAtPrice > price;
 
@@ -51,8 +47,7 @@ export function ProductCard({
         isHighlighted ? "ring-2 ring-pink-400" : ""
       }`}
     >
-      {/* Product Thumbnail */}
-      <div className="relative w-[80px] h-[100px] flex-shrink-0 rounded overflow-hidden bg-gray-100">
+      <div className="relative w-[80px] h-[100px] shrink-0 rounded overflow-hidden bg-gray-100">
         {thumbnailUrl ? (
           <Image
             src={thumbnailUrl}
@@ -88,12 +83,11 @@ export function ProductCard({
         </div>
       </div>
 
-      {/* Shop Button */}
       <a
         href={shopUrl || "#"}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors"
+        className="shrink-0 w-10 h-10 flex items-center justify-center bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors"
         aria-label={`Shop ${displayTitle}`}
       >
         <ShoppingBag className="w-5 h-5" />

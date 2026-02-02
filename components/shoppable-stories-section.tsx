@@ -1,4 +1,7 @@
+"use client";
+
 import type { FIRST_BRAND_WITH_CATEGORIES_QUERYResult } from "@/sanity.types";
+import { useRef } from "react";
 import { StoryCircle } from "./story-circle";
 
 type BrandWithCategories = NonNullable<FIRST_BRAND_WITH_CATEGORIES_QUERYResult>;
@@ -17,6 +20,26 @@ export function ShoppableStoriesSection({
   instagramUrl,
   categories,
 }: ShoppableStoriesSectionProps) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: -400,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: 400,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <section className="w-full bg-white py-[160px] px-[56px]">
       <div className="flex items-center justify-between mb-8">
@@ -47,23 +70,27 @@ export function ShoppableStoriesSection({
       </div>
 
       <div className="relative">
-        <div className="flex justify-between overflow-x-auto scrollbar-hide pb-4">
+        <div
+          ref={scrollContainerRef}
+          className="flex justify-between gap-[38px] overflow-x-auto scrollbar-hide pb-4"
+        >
           {categories.map((category) => (
             <StoryCircle key={category._id} category={category} />
           ))}
         </div>
 
-        {/* Arrow icons */}
         <div className="flex items-center justify-end gap-4 mt-6">
           <img
             src="/icons/left-arrow.svg"
             alt="Previous"
-            className="cursor-pointer"
+            className="cursor-pointer hover:opacity-70 transition-opacity"
+            onClick={scrollLeft}
           />
           <img
             src="/icons/right-arrow.svg"
             alt="Next"
-            className="cursor-pointer"
+            className="cursor-pointer hover:opacity-70 transition-opacity"
+            onClick={scrollRight}
           />
         </div>
       </div>

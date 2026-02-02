@@ -55,7 +55,6 @@ export function ShoppableImage({
   activeTagKey,
   onTagClick,
 }: ShoppableImageProps) {
-  // Filter tags with valid coordinates
   const validTags = (productTags || []).filter((tag) => tag.x && tag.y);
 
   if (!imageUrl) {
@@ -76,7 +75,6 @@ export function ShoppableImage({
         priority
       />
 
-      {/* Product Tag Dots */}
       {validTags.map((tag) => (
         <ProductTagDot
           key={tag._key}
@@ -87,7 +85,6 @@ export function ShoppableImage({
         />
       ))}
 
-      {/* Show message if no valid tags */}
       {productTags && productTags.length > 0 && validTags.length === 0 && (
         <div className="absolute top-4 left-4 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded z-20">
           Tags exist but missing or invalid coordinates

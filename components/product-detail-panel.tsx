@@ -15,7 +15,6 @@ interface ProductDetailPanelProps {
   onBack: () => void;
 }
 
-// Currency symbol mapping
 const currencySymbols: Record<string, string> = {
   USD: "$",
   EUR: "€",
@@ -41,7 +40,6 @@ export function ProductDetailPanel({
 
   return (
     <div className="flex flex-col h-full bg-white overflow-hidden">
-      {/* Back Button */}
       <button
         onClick={onBack}
         className="flex items-center gap-2 px-4 py-4 text-[10px] font-sans uppercase tracking-[2px] text-gray-500 hover:text-gray-900 transition-colors"
@@ -51,9 +49,8 @@ export function ProductDetailPanel({
       </button>
 
       <div className="flex flex-col gap-8 px-4 pb-12 mt-2 overflow-y-auto">
-        {/* Product Image and Info */}
         <div className="flex gap-4">
-          <div className="relative w-[100px] h-[138px] flex-shrink-0 bg-gray-100 rounded overflow-hidden">
+          <div className="relative w-[100px] h-[138px] shrink-0 bg-gray-100 rounded overflow-hidden">
             <Image
               src={thumbnailUrl || ""}
               alt={title || "Product"}
@@ -72,7 +69,6 @@ export function ProductDetailPanel({
           </div>
         </div>
 
-        {/* Color Variants */}
         {variants && variants.length > 0 && (
           <div className="flex flex-col gap-3">
             <span className="text-[10px] font-sans uppercase tracking-[2px] text-gray-900">
@@ -102,7 +98,6 @@ export function ProductDetailPanel({
           </div>
         )}
 
-        {/* Size Selection */}
         {currentVariant?.sizes && currentVariant.sizes.length > 0 && (
           <div className="flex flex-col gap-3">
             <span className="text-[10px] font-sans uppercase tracking-[2px] text-gray-900">
@@ -126,9 +121,7 @@ export function ProductDetailPanel({
           </div>
         )}
 
-        {/* Quantity and Add to Cart */}
         <div className="flex flex-col gap-4 mt-4">
-          {/* Quantity Selector */}
           <div className="flex items-center justify-between border border-gray-200 h-[50px] px-4">
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -145,12 +138,10 @@ export function ProductDetailPanel({
             </button>
           </div>
 
-          {/* Add to Cart Button */}
           <button className="bg-gray-900 text-white h-[50px] flex items-center justify-center gap-3 text-sm font-medium hover:bg-black transition-colors">
             ADD TO CART
           </button>
 
-          {/* Shop Full Product */}
           <a
             href={shopUrl || "#"}
             target="_blank"
