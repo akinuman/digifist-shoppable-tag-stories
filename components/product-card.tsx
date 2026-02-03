@@ -1,5 +1,4 @@
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
-import { ShoppingBag } from "lucide-react";
 import Image from "next/image";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
@@ -43,11 +42,11 @@ export function ProductCard({
 
   return (
     <div
-      className={`flex items-center gap-4 p-3 bg-white rounded-lg transition-all ${
+      className={`flex cursor-pointer items-center gap-4 relative bg-white border border-[#E6E2E1] p-2 transition-all ${
         isHighlighted ? "ring-2 ring-pink-400" : ""
       }`}
     >
-      <div className="relative w-[80px] h-[100px] shrink-0 rounded overflow-hidden bg-gray-100">
+      <div className="relative w-[80px] h-[100px] shrink-0 overflow-hidden bg-gray-100">
         {thumbnailUrl ? (
           <Image
             src={thumbnailUrl}
@@ -64,18 +63,18 @@ export function ProductCard({
 
       {/* Product Info */}
       <div className="flex-1 min-w-0">
-        <h4 className="font-serif text-sm font-medium text-gray-900 line-clamp-2">
+        <h4 className="font-adobe text-[14px] font-medium text-gray-900 line-clamp-2">
           {displayTitle}
         </h4>
         <div className="flex items-center gap-2 mt-1">
           {hasDiscount && compareAtPrice != null && (
-            <span className="text-sm text-gray-400 line-through">
+            <span className="text-[12px] font-figtree text-gray-400 line-through">
               {displayCurrency}
               {compareAtPrice.toFixed(2)}
             </span>
           )}
           <span
-            className={`text-sm font-medium ${hasDiscount ? "text-red-500" : "text-gray-900"}`}
+            className={`text-[12px] font-figtree ${hasDiscount ? "text-red-500" : "text-gray-900"}`}
           >
             {displayCurrency}
             {displayPrice.toFixed(2)}
@@ -83,15 +82,9 @@ export function ProductCard({
         </div>
       </div>
 
-      <a
-        href={shopUrl || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="shrink-0 w-10 h-10 flex items-center justify-center bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors"
-        aria-label={`Shop ${displayTitle}`}
-      >
-        <ShoppingBag className="w-5 h-5" />
-      </a>
+      <div className="bg-gray-900 p-2 absolute right-3 bottom-3">
+        <img src="/icons/shopping-bag.svg" alt="Previous" />
+      </div>
     </div>
   );
 }

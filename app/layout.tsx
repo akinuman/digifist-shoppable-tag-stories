@@ -1,7 +1,8 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter as FontSans, EB_Garamond as FontSerif } from "next/font/google";
+import { Figtree } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
@@ -26,16 +27,16 @@ export const metadata: Metadata = {
   robots: !isProduction ? "noindex, nofollow" : "index, follow",
 };
 
-const fontSans = FontSans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-sans",
+const fontAdobe = localFont({
+  src: "../public/fonts/AGaramondPro-Regular.woff",
+  variable: "--font-adobe",
+  weight: "400",
 });
 
-const fontSerif = FontSerif({
+const fontFigtree = Figtree({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-serif",
+  weight: ["400"],
+  variable: "--font-figtree",
 });
 
 export default function RootLayout({
@@ -47,10 +48,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <link rel="icon" href="/favicon.ico" />
       <body
+        suppressHydrationWarning
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
-          fontSans.variable,
-          fontSerif.variable,
+          fontAdobe.variable,
+          fontFigtree.variable,
         )}
       >
         <ThemeProvider

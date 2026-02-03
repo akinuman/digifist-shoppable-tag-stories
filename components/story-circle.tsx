@@ -48,7 +48,7 @@ export function StoryCircle({ category, isActive = false }: StoryCircleProps) {
 
       <span
         className={cn(
-          "font-serif text-lg tracking-wider capitalize",
+          "font-adobe text-lg tracking-wider capitalize",
           hasPosts ? "text-gray-900" : "text-gray-400",
         )}
         style={{

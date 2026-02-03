@@ -44,7 +44,7 @@ export function ShoppableStoriesSection({
     <section className="w-full bg-white py-[160px] px-[56px]">
       <div className="flex items-center justify-between mb-8">
         <h2
-          className="font-serif text-[32px] font-normal uppercase text-gray-900"
+          className="font-adobe text-[32px] font-normal uppercase text-gray-900"
           style={{
             lineHeight: "130%",
             letterSpacing: "1px",
@@ -58,7 +58,7 @@ export function ShoppableStoriesSection({
             href={instagramUrl || `https://instagram.com/${instagramHandle}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 border border-gray-900 font-serif text-[18px] text-gray-900 uppercase hover:bg-gray-900 hover:text-white transition-colors"
+            className="px-10 py-4 border border-gray-900 font-figtree text-[12px] text-gray-900 uppercase hover:bg-gray-900 hover:text-white transition-colors"
             style={{
               letterSpacing: "1px",
               lineHeight: "160%",

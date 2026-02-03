@@ -5,8 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-figtree);
   --font-serif: var(--font-serif);
+  --font-adobe: var(--font-adobe);
+  --font-figtree: var(--font-figtree);
 
   /* Custom animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -46,7 +48,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-figtree);
+  --font-serif: var(--font-serif);
+  --font-adobe: var(--font-adobe);
+  --font-figtree: var(--font-figtree);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);

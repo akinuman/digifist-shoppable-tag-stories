@@ -1,7 +1,6 @@
 "use client";
 
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
-import { Instagram, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -71,34 +70,36 @@ export function StoryModalContent({
 
   const content = (
     <div className="h-full flex flex-col bg-white">
-      <div className="h-[130px] shrink-0 flex items-center justify-between px-12 border-gray-100">
-        <div className="flex items-center gap-3">
-          <h2 className="font-serif text-[28px] font-normal uppercase tracking-wide text-gray-900">
-            #{categoryName.replace(/^#/, "")}
+      <div className="h-[130px] shrink-0 flex justify-between pl-14 pr-6 pt-6 border-gray-100">
+        <div className="flex items-center gap-3 mt-8">
+          <h2 className="font-adobe text-[32px] font-normal uppercase tracking-wide text-gray-900">
+            {categoryName}
           </h2>
-          <span className="text-gray-400 text-base">{postCount} posts</span>
+          <span className="text-gray-900 font-figtree text-base">
+            {postCount} posts
+          </span>
         </div>
         {isFullPage ? (
           <Link
             href="/"
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="w-10 h-10 flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
-            <X className="w-6 h-6" />
+            <img src="/icons/close.svg" alt="Previous" />
           </Link>
         ) : (
           <button
             onClick={handleClose}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="w-10 h-10 flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
-            <X className="w-6 h-6" />
+            <img src="/icons/close.svg" alt="Previous" />
           </button>
         )}
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
-        <div className="w-[280px] hrink-0 p-8 overflow-y-auto">
+      <div className="flex-1 flex overflow-hidden px-14 pt-16">
+        <div className="max-w-[326px] overflow-y-auto">
           <div className="flex items-center gap-3 mb-6">
             <div className="relative w-12 h-12 rounded-full p-[2px] bg-linear-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]">
               {brandLogoUrl ? (
@@ -140,19 +141,15 @@ export function StoryModalContent({
               href={currentPost.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
             >
-              <Instagram className="w-4 h-4" />
-              <span className="leading-tight">
-                View on
-                <br />
-                Instagram
-              </span>
+              <img src="/icons/instagram.svg" alt="Instagram" />
+              <span className="leading-tight">View on Instagram</span>
             </a>
           )}
         </div>
 
-        <div className="flex-1 flex items-center justify-center bg-white p-4">
+        <div className="flex-1 flex items-start justify-center bg-white">
           <div className="relative w-full max-w-[558px] aspect-square">
             <ShoppableImage
               imageUrl={currentPost.imageUrl}
@@ -166,14 +163,14 @@ export function StoryModalContent({
           </div>
         </div>
 
-        <div className="w-[313px] shrink-0 bg-white overflow-hidden">
+        <div className="max-w-[313px] bg-white overflow-hidden">
           {activeProduct ? (
             <ProductDetailPanel
               product={activeProduct}
               onBack={() => setActiveTagKey(null)}
             />
           ) : (
-            <div className="p-6 h-full overflow-y-auto">
+            <div className="h-full overflow-y-auto">
               <div className="flex flex-col gap-4">
                 {(currentPost.productTags || []).map((tag) => (
                   <button

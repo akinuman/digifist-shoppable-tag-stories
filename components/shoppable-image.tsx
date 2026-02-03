@@ -25,9 +25,7 @@ export function ProductTagDot({
     <button
       onClick={onClick}
       className={`absolute cursor-pointer w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all shadow-sm z-10 ${
-        isActive
-          ? "bg-black text-white scale-110"
-          : "bg-white text-black hover:scale-110"
+        isActive ? "bg-black text-white" : "bg-white text-black"
       }`}
       style={{
         left: `${x}%`,
