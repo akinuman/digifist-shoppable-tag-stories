@@ -12,7 +12,7 @@ interface ProductCardProps {
   isHighlighted?: boolean;
 }
 
-export function ProductCard({
+export function MiniProductCard({
   product,
   isHighlighted = false,
 }: ProductCardProps) {

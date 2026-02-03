@@ -1,11 +1,12 @@
 "use client";
 
+import { useLockScroll } from "@/hooks/use-lock-scroll";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
 import Image from "next/image";
 import { useState } from "react";
-import { ProductCard } from "./product-card";
 import { ProductDetailPanel } from "./product-detail-panel";
 import { ShoppableImage } from "./shoppable-image";
+import { MiniProductCard } from "./mini-product-card";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
 type PostType = CategoryWithPosts["posts"][number];
@@ -22,6 +23,9 @@ export function Post({ post }: PostProps) {
     (tag) => tag._key === activeTagKey,
   )?.product;
 
+  // Lock body scroll when mobile panel is open
+  useLockScroll(isDetailVisible);
+
   const handleOpenProduct = (key: string) => {
     setActiveTagKey(key);
     setTimeout(() => setIsDetailVisible(true), 10);
@@ -32,9 +36,14 @@ export function Post({ post }: PostProps) {
     setTimeout(() => setActiveTagKey(null), 300);
   };
 
+  const handleCloseProductDesktop = () => {
+    setActiveTagKey(null);
+    setIsDetailVisible(false);
+  };
+
   const handleTagClick = (key: string) => {
     if (activeTagKey === key) {
-      handleCloseProduct();
+      handleCloseProductDesktop();
     } else {
       handleOpenProduct(key);
     }
@@ -112,7 +121,7 @@ export function Post({ post }: PostProps) {
           {activeProduct ? (
             <ProductDetailPanel
               product={activeProduct}
-              onBack={handleCloseProduct}
+              onBack={handleCloseProductDesktop}
             />
           ) : (
             <div className="h-full overflow-y-auto">
@@ -123,7 +132,7 @@ export function Post({ post }: PostProps) {
                     onClick={() => handleTagClick(tag._key)}
                     className="text-left w-full focus:outline-none"
                   >
-                    <ProductCard
+                    <MiniProductCard
                       product={tag.product}
                       isHighlighted={activeTagKey === tag._key}
                     />
@@ -142,7 +151,7 @@ export function Post({ post }: PostProps) {
                 onClick={() => handleTagClick(tag._key)}
                 className="text-left w-full focus:outline-none"
               >
-                <ProductCard
+                <MiniProductCard
                   product={tag.product}
                   isHighlighted={activeTagKey === tag._key}
                 />
