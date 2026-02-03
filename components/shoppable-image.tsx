@@ -1,7 +1,6 @@
 "use client";
 
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
-import { Plus } from "lucide-react";
 import Image from "next/image";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
@@ -24,8 +23,8 @@ export function ProductTagDot({
   return (
     <button
       onClick={onClick}
-      className={`absolute cursor-pointer w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all shadow-sm z-10 ${
-        isActive ? "bg-black text-white" : "bg-white text-black"
+      className={`absolute cursor-pointer w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all z-10 ${
+        isActive ? "border border-gray-900 bg-white" : "bg-white"
       }`}
       style={{
         left: `${x}%`,
@@ -33,7 +32,7 @@ export function ProductTagDot({
       }}
       aria-label="View product"
     >
-      <Plus className="w-4 h-4" />
+      <Image src="/icons/plus.svg" alt="Plus" width={16} height={16} />
     </button>
   );
 }

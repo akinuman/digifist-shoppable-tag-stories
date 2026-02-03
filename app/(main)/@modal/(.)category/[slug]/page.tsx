@@ -13,15 +13,13 @@ export default async function CategoryModal({ params }: PageProps) {
     return null;
   }
 
+  console.log(category);
+
   return (
     <StoryModalContent
       categoryName={category.name ?? ""}
       postCount={category.postCount}
       posts={category.posts || []}
-      brandName={
-        (category.brand?.displayName || category.brand?.name) ?? undefined
-      }
-      brandLogoUrl={category.brand?.logoUrl ?? undefined}
     />
   );
 }

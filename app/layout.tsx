@@ -39,6 +39,12 @@ const fontFigtree = Figtree({
   variable: "--font-figtree",
 });
 
+const fontHarmonia = localFont({
+  src: "../public/fonts/Harmonia-Sans-W01-Regular.otf",
+  variable: "--font-harmonia",
+  weight: "400",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -53,6 +59,7 @@ export default function RootLayout({
           "min-h-screen bg-background font-sans antialiased overscroll-none",
           fontAdobe.variable,
           fontFigtree.variable,
+          fontHarmonia.variable,
         )}
       >
         <ThemeProvider

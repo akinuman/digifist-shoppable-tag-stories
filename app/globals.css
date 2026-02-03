@@ -9,6 +9,7 @@
   --font-serif: var(--font-serif);
   --font-adobe: var(--font-adobe);
   --font-figtree: var(--font-figtree);
+  --font-harmonia: var(--font-harmonia);
 
   /* Custom animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;

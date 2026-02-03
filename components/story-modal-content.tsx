@@ -1,24 +1,18 @@
 "use client";
 
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ProductCard } from "./product-card";
-import { ProductDetailPanel } from "./product-detail-panel";
-import { ShoppableImage } from "./shoppable-image";
+import { Post } from "./post";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
-type Post = CategoryWithPosts["posts"][number];
-type ProductTag = NonNullable<Post["productTags"]>[number];
+type PostType = CategoryWithPosts["posts"][number];
 
 interface StoryModalContentProps {
   categoryName: string;
   postCount: number;
-  posts: Post[];
-  brandName?: string;
-  brandLogoUrl?: string;
+  posts: PostType[];
   isFullPage?: boolean;
 }
 
@@ -26,20 +20,10 @@ export function StoryModalContent({
   categoryName,
   postCount,
   posts,
-  brandName,
-  brandLogoUrl,
   isFullPage = false,
 }: StoryModalContentProps) {
   const router = useRouter();
-  const [activePostIndex, setActivePostIndex] = useState(0);
-  const [activeTagKey, setActiveTagKey] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-
-  const currentPost = posts[activePostIndex];
-
-  const activeProduct = currentPost?.productTags?.find(
-    (tag) => tag._key === activeTagKey,
-  )?.product;
 
   useEffect(() => {
     setIsVisible(true);
@@ -60,15 +44,7 @@ export function StoryModalContent({
     return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
-  if (!currentPost) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-gray-500">No posts in this category yet.</p>
-      </div>
-    );
-  }
-
-  const content = (
+  const renderContent = () => (
     <div className="h-full flex flex-col bg-white">
       <div className="h-[130px] shrink-0 flex justify-between pl-14 pr-6 pt-6 border-gray-100">
         <div className="flex items-center gap-3 mt-8">
@@ -85,7 +61,7 @@ export function StoryModalContent({
             className="w-10 h-10 flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
-            <img src="/icons/close.svg" alt="Previous" />
+            <img src="/icons/close.svg" alt="Close" />
           </Link>
         ) : (
           <button
@@ -93,101 +69,20 @@ export function StoryModalContent({
             className="w-10 h-10 flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
-            <img src="/icons/close.svg" alt="Previous" />
+            <img src="/icons/close.svg" alt="Close" />
           </button>
         )}
       </div>
 
-      <div className="flex-1 flex overflow-hidden px-14 pt-16">
-        <div className="max-w-[326px] overflow-y-auto">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="relative w-12 h-12 rounded-full p-[2px] bg-linear-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]">
-              {brandLogoUrl ? (
-                <div className="w-full h-full rounded-full overflow-hidden bg-white">
-                  <Image
-                    src={brandLogoUrl}
-                    alt={brandName || "Brand"}
-                    width={48}
-                    height={48}
-                    className="object-cover"
-                  />
-                </div>
-              ) : (
-                <div className="w-full h-full rounded-full flex items-center justify-center bg-white text-xs font-serif text-gray-600">
-                  FAE
-                </div>
-              )}
-            </div>
-            <span className="font-medium text-sm text-gray-900">
-              {brandName || "Fae House Swimwear"}
-            </span>
+      {/* Scrollable Posts Container */}
+      <div className="flex-1 overflow-y-auto px-14">
+        {posts.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-gray-500">No posts in this category yet.</p>
           </div>
-
-          {currentPost.caption && (
-            <p className="text-sm text-gray-600 leading-relaxed mb-4">
-              {currentPost.caption}
-              <span className="text-pink-400 ml-1">✦</span>
-            </p>
-          )}
-
-          {currentPost.hashtags && currentPost.hashtags.length > 0 && (
-            <p className="text-sm text-pink-500 leading-relaxed mb-8">
-              {currentPost.hashtags.map((tag) => `#${tag}`).join(" ")}
-            </p>
-          )}
-
-          {currentPost.instagramUrl && (
-            <a
-              href={currentPost.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <img src="/icons/instagram.svg" alt="Instagram" />
-              <span className="leading-tight">View on Instagram</span>
-            </a>
-          )}
-        </div>
-
-        <div className="flex-1 flex items-start justify-center bg-white">
-          <div className="relative w-full max-w-[558px] aspect-square">
-            <ShoppableImage
-              imageUrl={currentPost.imageUrl}
-              alt={currentPost.title}
-              productTags={currentPost.productTags}
-              activeTagKey={activeTagKey}
-              onTagClick={(key) =>
-                setActiveTagKey(key === activeTagKey ? null : key)
-              }
-            />
-          </div>
-        </div>
-
-        <div className="max-w-[313px] bg-white overflow-hidden">
-          {activeProduct ? (
-            <ProductDetailPanel
-              product={activeProduct}
-              onBack={() => setActiveTagKey(null)}
-            />
-          ) : (
-            <div className="h-full overflow-y-auto">
-              <div className="flex flex-col gap-4">
-                {(currentPost.productTags || []).map((tag) => (
-                  <button
-                    key={tag._key}
-                    onClick={() => setActiveTagKey(tag._key)}
-                    className="text-left w-full focus:outline-none"
-                  >
-                    <ProductCard
-                      product={tag.product}
-                      isHighlighted={activeTagKey === tag._key}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        ) : (
+          posts.map((post) => <Post key={post._id} post={post} />)
+        )}
       </div>
     </div>
   );
@@ -204,7 +99,7 @@ export function StoryModalContent({
           className="relative w-full bg-white rounded-t-2xl overflow-hidden z-10"
           style={{ height: "850px", maxHeight: "90vh" }}
         >
-          {content}
+          {renderContent()}
         </div>
       </div>
     );
@@ -225,7 +120,7 @@ export function StoryModalContent({
         }`}
         style={{ height: "850px", maxHeight: "90vh" }}
       >
-        {content}
+        {renderContent()}
       </div>
     </>
   );
