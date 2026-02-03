@@ -22,20 +22,16 @@ export function Post({ post }: PostProps) {
     (tag) => tag._key === activeTagKey,
   )?.product;
 
-  // Handle opening product detail
   const handleOpenProduct = (key: string) => {
     setActiveTagKey(key);
-    // Small delay to allow state to update before animation
     setTimeout(() => setIsDetailVisible(true), 10);
   };
 
-  // Handle closing product detail
   const handleCloseProduct = () => {
     setIsDetailVisible(false);
     setTimeout(() => setActiveTagKey(null), 300);
   };
 
-  // Toggle on desktop (same click closes)
   const handleTagClick = (key: string) => {
     if (activeTagKey === key) {
       handleCloseProduct();
@@ -112,7 +108,6 @@ export function Post({ post }: PostProps) {
           </div>
         </div>
 
-        {/* Desktop: Inline product cards/detail panel */}
         <div className="hidden md:block md:w-[313px] shrink-0 overflow-hidden">
           {activeProduct ? (
             <ProductDetailPanel
@@ -139,7 +134,6 @@ export function Post({ post }: PostProps) {
           )}
         </div>
 
-        {/* Mobile: Product cards list */}
         <div className="md:hidden overflow-hidden">
           <div className="flex flex-col gap-4">
             {(post.productTags || []).map((tag) => (

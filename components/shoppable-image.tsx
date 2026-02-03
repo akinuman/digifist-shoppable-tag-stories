@@ -5,7 +5,6 @@ import Image from "next/image";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
 type Post = CategoryWithPosts["posts"][number];
-type ProductTag = NonNullable<Post["productTags"]>[number];
 
 interface ProductTagDotProps {
   x: number;

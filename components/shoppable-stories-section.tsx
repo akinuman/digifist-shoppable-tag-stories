@@ -25,7 +25,6 @@ export function ShoppableStoriesSection({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [mobilePageIndex, setMobilePageIndex] = useState(0);
 
-  // Desktop scroll handlers
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -44,7 +43,6 @@ export function ShoppableStoriesSection({
     }
   };
 
-  // Mobile pagination
   const totalMobilePages = Math.ceil(categories.length / MOBILE_ITEMS_PER_PAGE);
   const mobileStartIndex = mobilePageIndex * MOBILE_ITEMS_PER_PAGE;
   const mobileCategories = categories.slice(
@@ -76,7 +74,6 @@ export function ShoppableStoriesSection({
           {brandName}
         </h2>
 
-        {/* Desktop: Follow button in header */}
         {instagramHandle && (
           <a
             href={instagramUrl || `https://instagram.com/${instagramHandle}`}
@@ -93,9 +90,7 @@ export function ShoppableStoriesSection({
         )}
       </div>
 
-      {/* Mobile: Grid layout with pagination */}
       <div className="md:hidden">
-        {/* Fixed 3-row grid to prevent layout shift between pages */}
         <div
           className="grid grid-cols-2 grid-rows-3 gap-6 justify-items-center content-start"
           style={{ minHeight: "660px" }}
@@ -105,7 +100,6 @@ export function ShoppableStoriesSection({
           ))}
         </div>
 
-        {/* Mobile pagination arrows - centered */}
         {totalMobilePages > 1 && (
           <div className="flex items-center justify-center gap-6 mt-8">
             <button
@@ -135,7 +129,6 @@ export function ShoppableStoriesSection({
           </div>
         )}
 
-        {/* Mobile: Follow button at bottom */}
         {instagramHandle && (
           <div className="flex justify-center mt-8">
             <a
@@ -154,7 +147,6 @@ export function ShoppableStoriesSection({
         )}
       </div>
 
-      {/* Desktop: Horizontal scroll layout */}
       <div className="hidden md:block relative">
         <div
           ref={scrollContainerRef}
@@ -165,7 +157,6 @@ export function ShoppableStoriesSection({
           ))}
         </div>
 
-        {/* Desktop arrows - right aligned */}
         <div className="flex items-center justify-end gap-4 mt-6">
           <img
             src="/icons/left-arrow.svg"

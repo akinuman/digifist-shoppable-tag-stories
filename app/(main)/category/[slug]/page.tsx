@@ -5,7 +5,6 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Full page version (for direct URL access or SEO)
 export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
   const category = await fetchCategoryWithPosts(slug);
@@ -30,13 +29,11 @@ export default async function CategoryPage({ params }: PageProps) {
   );
 }
 
-// Generate static paths for all categories
 export async function generateStaticParams() {
   const slugs = await fetchCategorySlugs();
   return slugs;
 }
 
-// SEO metadata
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const category = await fetchCategoryWithPosts(slug);
