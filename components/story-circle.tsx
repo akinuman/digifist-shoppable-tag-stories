@@ -25,7 +25,7 @@ export function StoryCircle({ category, isActive = false }: StoryCircleProps) {
     <>
       <div
         className={cn(
-          "relative w-[200px] h-[200px] rounded-full p-[3px]",
+          "relative w-[150px] h-[150px] md:w-[200px] md:h-[200px] rounded-full p-[3px]",
           hasPosts &&
             "bg-linear-to-br from-[#C129BF] via-[#EB4E41] to-[#F7CC45]",
           !hasPosts && "bg-gray-200",

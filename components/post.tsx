@@ -16,10 +16,33 @@ interface PostProps {
 
 export function Post({ post }: PostProps) {
   const [activeTagKey, setActiveTagKey] = useState<string | null>(null);
+  const [isDetailVisible, setIsDetailVisible] = useState(false);
 
   const activeProduct = post?.productTags?.find(
     (tag) => tag._key === activeTagKey,
   )?.product;
+
+  // Handle opening product detail
+  const handleOpenProduct = (key: string) => {
+    setActiveTagKey(key);
+    // Small delay to allow state to update before animation
+    setTimeout(() => setIsDetailVisible(true), 10);
+  };
+
+  // Handle closing product detail
+  const handleCloseProduct = () => {
+    setIsDetailVisible(false);
+    setTimeout(() => setActiveTagKey(null), 300);
+  };
+
+  // Toggle on desktop (same click closes)
+  const handleTagClick = (key: string) => {
+    if (activeTagKey === key) {
+      handleCloseProduct();
+    } else {
+      handleOpenProduct(key);
+    }
+  };
 
   if (!post) {
     return null;
@@ -76,7 +99,7 @@ export function Post({ post }: PostProps) {
         )}
       </div>
 
-      <div className="flex-1 flex gap-8 flex-col  md:flex-row">
+      <div className="flex-1 flex gap-8 flex-col md:flex-row">
         <div className="flex-1 flex items-start justify-center bg-white">
           <div className="relative w-full max-w-[558px] aspect-square">
             <ShoppableImage
@@ -84,18 +107,17 @@ export function Post({ post }: PostProps) {
               alt={post.title}
               productTags={post.productTags}
               activeTagKey={activeTagKey}
-              onTagClick={(key) =>
-                setActiveTagKey(key === activeTagKey ? null : key)
-              }
+              onTagClick={handleTagClick}
             />
           </div>
         </div>
 
-        <div className="md:w-[313px] shrink-0 overflow-hidden">
+        {/* Desktop: Inline product cards/detail panel */}
+        <div className="hidden md:block md:w-[313px] shrink-0 overflow-hidden">
           {activeProduct ? (
             <ProductDetailPanel
               product={activeProduct}
-              onBack={() => setActiveTagKey(null)}
+              onBack={handleCloseProduct}
             />
           ) : (
             <div className="h-full overflow-y-auto">
@@ -103,7 +125,7 @@ export function Post({ post }: PostProps) {
                 {(post.productTags || []).map((tag) => (
                   <button
                     key={tag._key}
-                    onClick={() => setActiveTagKey(tag._key)}
+                    onClick={() => handleTagClick(tag._key)}
                     className="text-left w-full focus:outline-none"
                   >
                     <ProductCard
@@ -116,7 +138,56 @@ export function Post({ post }: PostProps) {
             </div>
           )}
         </div>
+
+        {/* Mobile: Product cards list */}
+        <div className="md:hidden overflow-hidden">
+          <div className="flex flex-col gap-4">
+            {(post.productTags || []).map((tag) => (
+              <button
+                key={tag._key}
+                onClick={() => handleTagClick(tag._key)}
+                className="text-left w-full focus:outline-none"
+              >
+                <ProductCard
+                  product={tag.product}
+                  isHighlighted={activeTagKey === tag._key}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {activeTagKey && (
+        <div className="md:hidden">
+          <div
+            className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 ${
+              isDetailVisible ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={handleCloseProduct}
+          />
+
+          <div
+            className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden transition-transform duration-300 ease-out ${
+              isDetailVisible ? "translate-y-0" : "translate-y-full"
+            }`}
+            style={{ maxHeight: "85vh" }}
+          >
+            <div
+              className="px-6 py-8 md:py-0 overflow-y-auto"
+              style={{ maxHeight: "calc(85vh - 32px)" }}
+            >
+              {activeProduct && (
+                <ProductDetailPanel
+                  product={activeProduct}
+                  onBack={handleCloseProduct}
+                  isMobile
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

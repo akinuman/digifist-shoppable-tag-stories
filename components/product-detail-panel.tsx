@@ -14,11 +14,13 @@ type Product = NonNullable<ProductTag["product"]>;
 interface ProductDetailPanelProps {
   product: Product;
   onBack: () => void;
+  isMobile?: boolean;
 }
 
 export function ProductDetailPanel({
   product,
   onBack,
+  isMobile = false,
 }: ProductDetailPanelProps) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -36,7 +38,9 @@ export function ProductDetailPanel({
     <div className="flex flex-col md:w-[313px] h-full bg-white overflow-hidden">
       <button
         onClick={onBack}
-        className="flex cursor-pointer items-center text-[12px] font-figtree uppercase tracking-[2px] text-gray-900 transition-colors"
+        className={`flex cursor-pointer items-center text-[12px] font-figtree uppercase tracking-[2px] text-gray-900 transition-colors ${
+          isMobile ? "justify-center" : ""
+        }`}
       >
         <img src="/icons/back-chevron.svg" alt="Back" />
         <span className="ml-4">Back</span>
