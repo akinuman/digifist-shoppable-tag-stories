@@ -72,7 +72,7 @@ export function ShoppableStoriesSection({
       <div className="relative">
         <div
           ref={scrollContainerRef}
-          className="flex justify-between gap-[38px] overflow-x-auto scrollbar-hide pb-4"
+          className="flex justify-between gap-[26px] overflow-x-auto scrollbar-hide pb-4"
         >
           {categories.map((category) => (
             <StoryCircle key={category._id} category={category} />

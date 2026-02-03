@@ -1,5 +1,6 @@
 "use client";
 
+import { CURRENCY_SYMBOLS } from "@/constants/CONST";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
@@ -15,13 +16,6 @@ interface ProductDetailPanelProps {
   onBack: () => void;
 }
 
-const currencySymbols: Record<string, string> = {
-  USD: "$",
-  EUR: "€",
-  GBP: "£",
-  TRY: "₺",
-};
-
 export function ProductDetailPanel({
   product,
   onBack,
@@ -35,11 +29,11 @@ export function ProductDetailPanel({
   const { title, price, currency, thumbnailUrl, shopUrl, variants } = product;
   const currentVariant = variants?.[selectedColorIndex];
   const displayCurrency = currency
-    ? (currencySymbols[currency] ?? currency)
+    ? (CURRENCY_SYMBOLS[currency] ?? currency)
     : "$";
 
   return (
-    <div className="flex flex-col w-[313px] h-full bg-white overflow-hidden">
+    <div className="flex flex-col md:w-[313px] h-full bg-white overflow-hidden">
       <button
         onClick={onBack}
         className="flex cursor-pointer items-center text-[12px] font-figtree uppercase tracking-[2px] text-gray-900 transition-colors"

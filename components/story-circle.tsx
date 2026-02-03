@@ -27,7 +27,7 @@ export function StoryCircle({ category, isActive = false }: StoryCircleProps) {
         className={cn(
           "relative w-[200px] h-[200px] rounded-full p-[3px]",
           hasPosts &&
-            "bg-linear-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]",
+            "bg-linear-to-br from-[#C129BF] via-[#EB4E41] to-[#F7CC45]",
           !hasPosts && "bg-gray-200",
         )}
       >

@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PageProps) {
   const category = await fetchCategoryWithPosts(slug);
 
   return {
-    title: category?.name ? `#${category.name} | Shop The Look` : "Category",
+    title: category?.name ? `${category.name} | Shop The Look` : "Category",
     description: `Shop products from our ${category?.name} collection`,
   };
 }

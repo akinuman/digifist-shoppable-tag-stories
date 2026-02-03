@@ -13,12 +13,10 @@ export default async function CategoryModal({ params }: PageProps) {
     return null;
   }
 
-  console.log(category);
-
   return (
     <StoryModalContent
       categoryName={category.name ?? ""}
-      postCount={category.postCount}
+      postCount={category.posts?.length ?? 0}
       posts={category.posts || []}
     />
   );

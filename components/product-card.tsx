@@ -1,3 +1,4 @@
+import { CURRENCY_SYMBOLS } from "@/constants/CONST";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
 import Image from "next/image";
 
@@ -11,13 +12,6 @@ interface ProductCardProps {
   isHighlighted?: boolean;
 }
 
-const currencySymbols: Record<string, string> = {
-  USD: "$",
-  EUR: "€",
-  GBP: "£",
-  TRY: "₺",
-};
-
 export function ProductCard({
   product,
   isHighlighted = false,
@@ -26,8 +20,7 @@ export function ProductCard({
     return null;
   }
 
-  const { title, price, compareAtPrice, currency, thumbnailUrl, shopUrl } =
-    product;
+  const { title, price, compareAtPrice, currency, thumbnailUrl } = product;
 
   const hasDiscount =
     compareAtPrice != null && price != null && compareAtPrice > price;
@@ -35,7 +28,7 @@ export function ProductCard({
   const displayTitle = title ?? "Product";
 
   const displayCurrency = currency
-    ? (currencySymbols[currency] ?? currency)
+    ? (CURRENCY_SYMBOLS[currency] ?? currency)
     : "$";
 
   const displayPrice = price ?? 0;
@@ -61,7 +54,6 @@ export function ProductCard({
         )}
       </div>
 
-      {/* Product Info */}
       <div className="flex-1 min-w-0">
         <h4 className="font-adobe text-[14px] font-medium text-gray-900 line-clamp-2">
           {displayTitle}

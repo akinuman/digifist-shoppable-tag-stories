@@ -26,9 +26,9 @@ export function Post({ post }: PostProps) {
   }
 
   return (
-    <div className="flex gap-8 py-8 border-b border-gray-100 last:border-b-0">
-      <div className="w-[313px] shrink-0">
-        <div className="flex items-center gap-3 mb-6">
+    <div className="flex gap-8 flex-col xl:flex-row md:py-8 border-b border-gray-100 last:border-b-0">
+      <div className="xl:w-[313px] shrink-0">
+        <div className="flex items-center gap-3 md:mb-6">
           <div className="relative w-12 h-12 rounded-full p-[2px] bg-linear-to-br from-[#FF6B9D] via-[#FFA500] to-[#FFD700]">
             {post.profileImageUrl ? (
               <div className="w-full h-full rounded-full overflow-hidden bg-white">
@@ -52,13 +52,13 @@ export function Post({ post }: PostProps) {
         </div>
 
         {post.caption && (
-          <p className="text-[14px] font-harmonia text-black leading-relaxed mb-4">
+          <p className="hidden xl:block text-[14px] font-harmonia text-black leading-relaxed mb-4">
             {post.caption}
           </p>
         )}
 
         {post.hashtags && post.hashtags.length > 0 && (
-          <p className="text-[14px] font-harmonia text-black leading-relaxed mb-8">
+          <p className="hidden xl:block text-[14px] font-harmonia text-black leading-relaxed mb-8">
             {post.hashtags.map((tag) => `#${tag}`).join(" ")}
           </p>
         )}
@@ -68,7 +68,7 @@ export function Post({ post }: PostProps) {
             href={post.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+            className="hidden xl:inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <img src="/icons/instagram.svg" alt="Instagram" />
             <span className="leading-tight">View on Instagram</span>
@@ -76,44 +76,46 @@ export function Post({ post }: PostProps) {
         )}
       </div>
 
-      <div className="flex-1 flex items-start justify-center bg-white">
-        <div className="relative w-full max-w-[558px] aspect-square">
-          <ShoppableImage
-            imageUrl={post.imageUrl}
-            alt={post.title}
-            productTags={post.productTags}
-            activeTagKey={activeTagKey}
-            onTagClick={(key) =>
-              setActiveTagKey(key === activeTagKey ? null : key)
-            }
-          />
-        </div>
-      </div>
-
-      <div className="w-[313px] shrink-0 overflow-hidden">
-        {activeProduct ? (
-          <ProductDetailPanel
-            product={activeProduct}
-            onBack={() => setActiveTagKey(null)}
-          />
-        ) : (
-          <div className="h-full overflow-y-auto">
-            <div className="flex flex-col gap-4">
-              {(post.productTags || []).map((tag) => (
-                <button
-                  key={tag._key}
-                  onClick={() => setActiveTagKey(tag._key)}
-                  className="text-left w-full focus:outline-none"
-                >
-                  <ProductCard
-                    product={tag.product}
-                    isHighlighted={activeTagKey === tag._key}
-                  />
-                </button>
-              ))}
-            </div>
+      <div className="flex-1 flex gap-8 flex-col  md:flex-row">
+        <div className="flex-1 flex items-start justify-center bg-white">
+          <div className="relative w-full max-w-[558px] aspect-square">
+            <ShoppableImage
+              imageUrl={post.imageUrl}
+              alt={post.title}
+              productTags={post.productTags}
+              activeTagKey={activeTagKey}
+              onTagClick={(key) =>
+                setActiveTagKey(key === activeTagKey ? null : key)
+              }
+            />
           </div>
-        )}
+        </div>
+
+        <div className="md:w-[313px] shrink-0 overflow-hidden">
+          {activeProduct ? (
+            <ProductDetailPanel
+              product={activeProduct}
+              onBack={() => setActiveTagKey(null)}
+            />
+          ) : (
+            <div className="h-full overflow-y-auto">
+              <div className="flex flex-col gap-4">
+                {(post.productTags || []).map((tag) => (
+                  <button
+                    key={tag._key}
+                    onClick={() => setActiveTagKey(tag._key)}
+                    className="text-left w-full focus:outline-none"
+                  >
+                    <ProductCard
+                      product={tag.product}
+                      isHighlighted={activeTagKey === tag._key}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

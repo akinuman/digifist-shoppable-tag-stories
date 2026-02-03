@@ -45,10 +45,10 @@ export function StoryModalContent({
   }, []);
 
   const renderContent = () => (
-    <div className="h-full flex flex-col bg-white">
-      <div className="h-[130px] shrink-0 flex justify-between pl-14 pr-6 pt-6 border-gray-100">
-        <div className="flex items-center gap-3 mt-8">
-          <h2 className="font-adobe text-[32px] font-normal uppercase tracking-wide text-gray-900">
+    <div className="h-full flex flex-col bg-white pb-6 md:pb-0">
+      <div className="h-[120px] md:h-[130px] shrink-0 flex justify-between md:pl-14 md:pr-6 md:pt-6 border-gray-100">
+        <div className="flex flex-1 px-6 md:px-0 justify-between md:justify-start items-center gap-3 mt-8">
+          <h2 className="font-adobe text-[24px] md:text-[32px] font-normal uppercase tracking-wide text-gray-900">
             {categoryName}
           </h2>
           <span className="text-gray-900 font-figtree text-base">
@@ -58,7 +58,7 @@ export function StoryModalContent({
         {isFullPage ? (
           <Link
             href="/"
-            className="w-10 h-10 flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="absolute top-4 right-[-8px] w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
             <img src="/icons/close.svg" alt="Close" />
@@ -66,7 +66,7 @@ export function StoryModalContent({
         ) : (
           <button
             onClick={handleClose}
-            className="w-10 h-10 flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="absolute top-3 right-3 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
             <img src="/icons/close.svg" alt="Close" />
@@ -74,8 +74,7 @@ export function StoryModalContent({
         )}
       </div>
 
-      {/* Scrollable Posts Container */}
-      <div className="flex-1 overflow-y-auto px-14">
+      <div className="flex-1 overflow-y-auto px-6 md:px-14">
         {posts.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-gray-500">No posts in this category yet.</p>
