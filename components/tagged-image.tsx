@@ -44,7 +44,7 @@ interface ShoppableImageProps {
   onTagClick?: (tagKey: string) => void;
 }
 
-export function ShoppableImage({
+export function TaggedImage({
   imageUrl,
   alt,
   productTags,

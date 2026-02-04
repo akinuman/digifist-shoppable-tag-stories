@@ -1,4 +1,4 @@
-import { ShoppableStoriesSection } from "@/components/shoppable-stories-section";
+import { Stories } from "@/components/stories";
 import { fetchFirstBrandWithCategories } from "@/sanity/lib/fetch";
 
 export default async function Page() {
@@ -19,7 +19,7 @@ export default async function Page() {
 
   return (
     <div className="min-h-screen bg-white">
-      <ShoppableStoriesSection
+      <Stories
         brandName={brandData.name ?? ""}
         instagramHandle={brandData.instagramHandle}
         instagramUrl={brandData.instagramUrl}

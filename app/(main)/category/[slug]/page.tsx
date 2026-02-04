@@ -1,4 +1,4 @@
-import { StoryModalContent } from "@/components/story-modal-content";
+import { StoryModal } from "@/components/story-modal";
 import { fetchCategorySlugs, fetchCategoryWithPosts } from "@/sanity/lib/fetch";
 
 interface PageProps {
@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-white">
-      <StoryModalContent
+      <StoryModal
         categoryName={category.name ?? ""}
         postCount={category.postCount}
         posts={category.posts || []}

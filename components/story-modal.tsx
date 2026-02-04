@@ -16,7 +16,7 @@ interface StoryModalContentProps {
   isFullPage?: boolean;
 }
 
-export function StoryModalContent({
+export function StoryModal({
   categoryName,
   postCount,
   posts,

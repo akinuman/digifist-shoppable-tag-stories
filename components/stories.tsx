@@ -7,7 +7,7 @@ import { StoryCircle } from "./story-circle";
 type BrandWithCategories = NonNullable<FIRST_BRAND_WITH_CATEGORIES_QUERYResult>;
 type Category = BrandWithCategories["categories"][number];
 
-interface ShoppableStoriesSectionProps {
+interface StoriesProps {
   brandName: string;
   instagramHandle?: string | null;
   instagramUrl?: string | null;
@@ -16,12 +16,12 @@ interface ShoppableStoriesSectionProps {
 
 const MOBILE_ITEMS_PER_PAGE = 6;
 
-export function ShoppableStoriesSection({
+export function Stories({
   brandName,
   instagramHandle,
   instagramUrl,
   categories,
-}: ShoppableStoriesSectionProps) {
+}: StoriesProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [mobilePageIndex, setMobilePageIndex] = useState(0);
 

@@ -11,17 +11,17 @@ type Post = CategoryWithPosts["posts"][number];
 type ProductTag = NonNullable<Post["productTags"]>[number];
 type Product = NonNullable<ProductTag["product"]>;
 
-interface ProductDetailPanelProps {
+interface ProductDetailProps {
   product: Product;
   onBack: () => void;
   isMobile?: boolean;
 }
 
-export function ProductDetailPanel({
+export function ProductDetail({
   product,
   onBack,
   isMobile = false,
-}: ProductDetailPanelProps) {
+}: ProductDetailProps) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);

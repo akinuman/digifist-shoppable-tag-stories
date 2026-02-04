@@ -4,9 +4,9 @@ import { useLockScroll } from "@/hooks/use-lock-scroll";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
 import Image from "next/image";
 import { useState } from "react";
-import { ProductDetailPanel } from "./product-detail-panel";
-import { ShoppableImage } from "./shoppable-image";
 import { MiniProductCard } from "./mini-product-card";
+import { ProductDetail } from "./product-detail";
+import { TaggedImage } from "./tagged-image";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
 type PostType = CategoryWithPosts["posts"][number];
@@ -107,7 +107,7 @@ export function Post({ post }: PostProps) {
       <div className="flex-1 flex gap-8 flex-col md:flex-row">
         <div className="flex-1 flex items-start justify-center bg-white">
           <div className="relative w-full max-w-[558px] aspect-square">
-            <ShoppableImage
+            <TaggedImage
               imageUrl={post.imageUrl}
               alt={post.title}
               productTags={post.productTags}
@@ -119,7 +119,7 @@ export function Post({ post }: PostProps) {
 
         <div className="hidden md:block md:w-[313px] shrink-0 overflow-hidden">
           {activeProduct ? (
-            <ProductDetailPanel
+            <ProductDetail
               product={activeProduct}
               onBack={handleCloseProductDesktop}
             />
@@ -181,7 +181,7 @@ export function Post({ post }: PostProps) {
               style={{ maxHeight: "calc(85vh - 32px)" }}
             >
               {activeProduct && (
-                <ProductDetailPanel
+                <ProductDetail
                   product={activeProduct}
                   onBack={handleCloseProduct}
                   isMobile
