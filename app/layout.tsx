@@ -54,7 +54,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <link rel="icon" href="/favicon.ico" />
       <body
-        suppressHydrationWarning
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",
           fontAdobe.variable,

@@ -1,6 +1,7 @@
 "use client";
 
 import type { FIRST_BRAND_WITH_CATEGORIES_QUERYResult } from "@/sanity.types";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { StoryCircle } from "./story-circle";
 
@@ -118,7 +119,12 @@ export function Stories({
               }`}
               aria-label="Previous page"
             >
-              <img src="/icons/left-arrow.svg" alt="Previous" />
+              <Image
+                src="/icons/left-arrow.svg"
+                alt="Previous"
+                width={24}
+                height={24}
+              />
             </button>
             <button
               onClick={goToNextPage}
@@ -130,7 +136,12 @@ export function Stories({
               }`}
               aria-label="Next page"
             >
-              <img src="/icons/right-arrow.svg" alt="Next" />
+              <Image
+                src="/icons/right-arrow.svg"
+                alt="Next"
+                width={24}
+                height={24}
+              />
             </button>
           </div>
         )}
@@ -164,18 +175,30 @@ export function Stories({
         </div>
 
         <div className="flex items-center justify-end gap-4 mt-6">
-          <img
-            src="/icons/left-arrow.svg"
-            alt="Previous"
-            className="cursor-pointer hover:opacity-70 transition-opacity"
+          <button
             onClick={scrollLeft}
-          />
-          <img
-            src="/icons/right-arrow.svg"
-            alt="Next"
-            className="cursor-pointer hover:opacity-70 transition-opacity"
+            className="hover:opacity-70 transition-opacity cursor-pointer focus:outline-none"
+            aria-label="Scroll left"
+          >
+            <Image
+              src="/icons/left-arrow.svg"
+              alt="Previous"
+              width={24}
+              height={24}
+            />
+          </button>
+          <button
             onClick={scrollRight}
-          />
+            className="hover:opacity-70 transition-opacity cursor-pointer focus:outline-none"
+            aria-label="Scroll right"
+          >
+            <Image
+              src="/icons/right-arrow.svg"
+              alt="Next"
+              width={24}
+              height={24}
+            />
+          </button>
         </div>
       </div>
     </section>
