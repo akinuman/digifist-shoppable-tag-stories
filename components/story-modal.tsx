@@ -41,7 +41,7 @@ export function StoryModal({
 
   const renderContent = () => (
     <div className="h-full flex flex-col bg-white pb-6 md:pb-0">
-      <div className="h-[120px] md:h-[130px] shrink-0 flex justify-between md:pl-14 md:pr-6 md:pt-6 border-gray-100">
+      <div className="relative h-[120px] md:h-[130px] shrink-0 flex justify-between md:pl-14 md:pr-6 md:pt-6 border-gray-100">
         <div className="flex flex-1 px-6 md:px-0 justify-between md:justify-start items-center gap-3 mt-8">
           <h2 className="font-adobe text-[24px] md:text-[32px] font-normal uppercase tracking-wide text-gray-900">
             {categoryName}
@@ -53,7 +53,7 @@ export function StoryModal({
         {isFullPage ? (
           <Link
             href="/"
-            className="absolute top-3 right-3 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="absolute top-6 right-0 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
             <img src="/icons/close.svg" alt="Close" />
@@ -61,7 +61,7 @@ export function StoryModal({
         ) : (
           <button
             onClick={handleClose}
-            className="absolute top-3 right-3 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="absolute top-4 right-0 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
             <img src="/icons/close.svg" alt="Close" />
