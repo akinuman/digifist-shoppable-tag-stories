@@ -28,11 +28,21 @@ export function ProductDetail({
 
   if (!product) return null;
 
-  const { title, price, currency, thumbnailUrl, shopUrl, variants } = product;
+  const {
+    title,
+    price,
+    compareAtPrice,
+    currency,
+    thumbnailUrl,
+    shopUrl,
+    variants,
+  } = product;
   const currentVariant = variants?.[selectedColorIndex];
   const displayCurrency = currency
     ? (CURRENCY_SYMBOLS[currency] ?? currency)
     : "$";
+  const hasDiscount =
+    compareAtPrice != null && price != null && compareAtPrice > price;
 
   return (
     <div className="flex flex-col md:w-[313px] h-full bg-white overflow-hidden">
@@ -60,10 +70,20 @@ export function ProductDetail({
             <h3 className="font-adobe text-[14px] text-gray-900 leading-tight mb-1">
               {title}
             </h3>
-            <span className="text-gray-900 font-figtree text-[12px] font-medium">
-              {displayCurrency}
-              {price?.toFixed(2)}
-            </span>
+            <div className="flex items-center gap-2">
+              {hasDiscount && compareAtPrice != null && (
+                <span className="text-gray-400 font-figtree text-[12px] font-medium line-through">
+                  {displayCurrency}
+                  {compareAtPrice.toFixed(2)}
+                </span>
+              )}
+              <span
+                className={`font-figtree text-[12px] font-medium ${hasDiscount ? "text-red-500" : "text-gray-900"}`}
+              >
+                {displayCurrency}
+                {price?.toFixed(2)}
+              </span>
+            </div>
           </div>
         </div>
 
