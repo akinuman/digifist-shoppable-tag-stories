@@ -189,32 +189,33 @@ export function Post({ post }: PostProps) {
           </div>
         </div>
       </div>
+      <div className="md:hidden gap-4 flex flex-col">
+        {post.caption && (
+          <p className="text-[14px] font-harmonia text-black leading-relaxed">
+            {post.caption}
+          </p>
+        )}
 
-      {post.caption && (
-        <p className="md:hidden text-[14px] font-harmonia text-black leading-relaxed">
-          {post.caption}
-        </p>
-      )}
+        {post.hashtags && post.hashtags.length > 0 && (
+          <p className="text-[14px] font-harmonia text-black leading-relaxed">
+            {post.hashtags.map((tag) => `#${tag}`).join(" ")}
+          </p>
+        )}
 
-      {post.hashtags && post.hashtags.length > 0 && (
-        <p className="md:hidden text-[14px] font-harmonia text-black leading-relaxed">
-          {post.hashtags.map((tag) => `#${tag}`).join(" ")}
-        </p>
-      )}
-
-      {post.instagramUrl && (
-        <a
-          href={post.instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex md:hidden items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-        >
-          <img src="/icons/instagram.svg" alt="Instagram" />
-          <span className="text-[12px] font-figtree text-gray-900">
-            View on Instagram
-          </span>
-        </a>
-      )}
+        {post.instagramUrl && (
+          <a
+            href={post.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <img src="/icons/instagram.svg" alt="Instagram" />
+            <span className="text-[12px] font-figtree text-gray-900">
+              View on Instagram
+            </span>
+          </a>
+        )}
+      </div>
 
       <AnimatePresence>
         {activeTagKey && (
