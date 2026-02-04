@@ -24,7 +24,6 @@ export function Post({ post }: PostProps) {
     (tag) => tag._key === activeTagKey,
   )?.product;
 
-  // Lock body scroll when mobile panel is open
   useLockScroll(!!activeTagKey);
 
   const handleOpenProduct = (key: string) => {

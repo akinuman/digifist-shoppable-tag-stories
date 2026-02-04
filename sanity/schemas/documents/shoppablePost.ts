@@ -62,7 +62,6 @@ export default defineType({
       type: "url",
       description: "Link to original Instagram post",
     }),
-    // 🔥 THE MAGIC: Visual Product Tagging
     defineField({
       name: "productTags",
       title: "Product Tags",
@@ -91,7 +90,6 @@ export default defineType({
         },
       ],
       options: {
-        // 👇 This connects the hotspot plugin to the mainImage field
         imageHotspot: {
           imagePath: "mainImage",
         },
