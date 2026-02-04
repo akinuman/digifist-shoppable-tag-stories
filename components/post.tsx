@@ -19,28 +19,24 @@ interface PostProps {
 export function Post({ post }: PostProps) {
   const [activeTagKey, setActiveTagKey] = useState<string | null>(null);
   const [hoveredTagKey, setHoveredTagKey] = useState<string | null>(null);
-  const [isDetailVisible, setIsDetailVisible] = useState(false);
 
   const activeProduct = post?.productTags?.find(
     (tag) => tag._key === activeTagKey,
   )?.product;
 
   // Lock body scroll when mobile panel is open
-  useLockScroll(isDetailVisible);
+  useLockScroll(!!activeTagKey);
 
   const handleOpenProduct = (key: string) => {
     setActiveTagKey(key);
-    setTimeout(() => setIsDetailVisible(true), 10);
   };
 
   const handleCloseProduct = () => {
-    setIsDetailVisible(false);
-    setTimeout(() => setActiveTagKey(null), 300);
+    setActiveTagKey(null);
   };
 
   const handleCloseProductDesktop = () => {
     setActiveTagKey(null);
-    setIsDetailVisible(false);
   };
 
   const handleTagClick = (key: string) => {
@@ -193,36 +189,42 @@ export function Post({ post }: PostProps) {
         </div>
       </div>
 
-      {activeTagKey && (
-        <div className="md:hidden">
-          <div
-            className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 ${
-              isDetailVisible ? "opacity-100" : "opacity-0"
-            }`}
-            onClick={handleCloseProduct}
-          />
+      <AnimatePresence>
+        {activeTagKey && (
+          <div className="md:hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-40 bg-black/40"
+              onClick={handleCloseProduct}
+            />
 
-          <div
-            className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden transition-transform duration-300 ease-out ${
-              isDetailVisible ? "translate-y-0" : "translate-y-full"
-            }`}
-            style={{ maxHeight: "85vh" }}
-          >
-            <div
-              className="px-6 py-8 md:py-0 overflow-y-auto"
-              style={{ maxHeight: "calc(85vh - 32px)" }}
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden"
+              style={{ maxHeight: "85vh" }}
             >
-              {activeProduct && (
-                <ProductDetail
-                  product={activeProduct}
-                  onBack={handleCloseProduct}
-                  isMobile
-                />
-              )}
-            </div>
+              <div
+                className="px-6 py-8 md:py-0 overflow-y-auto"
+                style={{ maxHeight: "calc(85vh - 32px)" }}
+              >
+                {activeProduct && (
+                  <ProductDetail
+                    product={activeProduct}
+                    onBack={handleCloseProduct}
+                    isMobile
+                  />
+                )}
+              </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 }

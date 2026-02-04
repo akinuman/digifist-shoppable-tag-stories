@@ -2,9 +2,10 @@
 
 import { useLockScroll } from "@/hooks/use-lock-scroll";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Post } from "./post";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
@@ -24,19 +25,12 @@ export function StoryModal({
   isFullPage = false,
 }: StoryModalContentProps) {
   const router = useRouter();
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  const [isOpen, setIsOpen] = useState(true);
 
   useLockScroll(true);
 
   const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      router.back();
-    }, 300);
+    setIsOpen(false);
   };
 
   const renderContent = () => (
@@ -97,21 +91,29 @@ export function StoryModal({
   }
 
   return (
-    <>
-      <div
-        className={`fixed inset-0 bg-black/40 z-50 transition-opacity duration-300 ${
-          isVisible ? "opacity-100" : "opacity-0"
-        }`}
-        onClick={handleClose}
-      />
+    <AnimatePresence mode="wait" onExitComplete={() => router.back()}>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/40 z-50"
+            onClick={handleClose}
+          />
 
-      <div
-        className={`fixed inset-x-0 bottom-0 z-50 h-[85vh] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden transition-transform duration-300 ease-out ${
-          isVisible ? "translate-y-0" : "translate-y-full"
-        }`}
-      >
-        {renderContent()}
-      </div>
-    </>
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-x-0 bottom-0 z-50 h-[85vh] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden"
+          >
+            {renderContent()}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
