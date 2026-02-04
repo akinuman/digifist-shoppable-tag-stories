@@ -28,7 +28,7 @@ export function ProductTagDot({
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`absolute cursor-pointer w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all z-10 ${
+      className={`absolute cursor-pointer w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all z-10 hover:bg-gray-100 ${
         isActive ? "border border-gray-900 bg-white" : "bg-white"
       }`}
       style={{
