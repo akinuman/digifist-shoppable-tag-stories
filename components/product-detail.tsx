@@ -2,7 +2,7 @@
 
 import { CURRENCY_SYMBOLS } from "@/constants/CONST";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
-import { Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -25,6 +25,7 @@ export function ProductDetail({
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!product) return null;
 
@@ -37,6 +38,16 @@ export function ProductDetail({
     shopUrl,
     variants,
   } = product;
+
+  const handleAddToCart = () => {
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      onBack();
+      setIsLoading(false);
+    }, 800);
+  };
+
   const currentVariant = variants?.[selectedColorIndex];
   const displayCurrency = currency
     ? (CURRENCY_SYMBOLS[currency] ?? currency)
@@ -143,7 +154,7 @@ export function ProductDetail({
           <div className="flex items-center justify-between border border-gray-200 h-[50px] px-3">
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="w-8 h-8 cursor-pointer flex items-center justify-baseline text-gray-900 hover:text-gray-900 transition-colors"
+              className="w-8 h-8 cursor-pointer flex items-center justify-center text-gray-900 transition-colors hover:bg-gray-100 rounded-full"
             >
               <Minus className="w-3 h-3" />
             </button>
@@ -152,17 +163,27 @@ export function ProductDetail({
             </span>
             <button
               onClick={() => setQuantity(quantity + 1)}
-              className="w-8 h-8 cursor-pointer flex items-center justify-end text-gray-900 hover:text-gray-900 transition-colors"
+              className="w-8 h-8 cursor-pointer flex items-center justify-center text-gray-900 transition-colors hover:bg-gray-100 rounded-full"
             >
               <Plus className="w-3 h-3" />
             </button>
           </div>
 
           <button
-            onClick={onBack}
-            className="bg-gray-900 font-figtree cursor-pointer text-[12px] text-white h-[50px] flex items-center justify-center gap-3 text-sm font-medium transition-colors hover:bg-black"
+            onClick={handleAddToCart}
+            disabled={isLoading}
+            className="relative bg-gray-900 font-figtree cursor-pointer text-[12px] text-white h-[50px] flex items-center justify-center gap-3 text-sm font-medium transition-colors hover:bg-black disabled:opacity-100 disabled:cursor-not-allowed"
           >
-            ADD TO CART
+            <span
+              className={`transition-all duration-200 ${isLoading ? "blur-sm opacity-50" : ""}`}
+            >
+              ADD TO CART
+            </span>
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Loader2 className="w-4 h-4 animate-spin" />
+              </div>
+            )}
           </button>
 
           <a
