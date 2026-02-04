@@ -103,7 +103,12 @@ export function Post({ post }: PostProps) {
             rel="noopener noreferrer"
             className="hidden xl:inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
           >
-            <img src="/icons/instagram.svg" alt="Instagram" />
+            <Image
+              src="/icons/instagram.svg"
+              alt="Instagram"
+              width={20}
+              height={20}
+            />
             <span className="text-[12px] font-figtree text-gray-900">
               View on Instagram
             </span>
@@ -209,7 +214,12 @@ export function Post({ post }: PostProps) {
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
           >
-            <img src="/icons/instagram.svg" alt="Instagram" />
+            <Image
+              src="/icons/instagram.svg"
+              alt="Instagram"
+              width={20}
+              height={20}
+            />
             <span className="text-[12px] font-figtree text-gray-900">
               View on Instagram
             </span>

@@ -1,5 +1,6 @@
 import { ICONS } from "@/constants/header";
 import { HEADER_QUERYResult } from "@/sanity.types";
+import Image from "next/image";
 import Link from "next/link";
 
 interface HeaderProps {
@@ -35,15 +36,23 @@ export function Header({ data }: HeaderProps) {
               />
             </svg>
           </div>
-          <img
+          <Image
             src="/icons/sahara.svg"
             alt="Sahara"
+            width={100}
+            height={18}
             className="h-[18px] w-auto"
           />
           <div className="w-6 flex justify-end">
-            <div className="relative">
-              <img src="/icons/bag.svg" alt="Bag" className="w-6 h-6" />
-            </div>
+            <button className="relative" aria-label="Open Cart">
+              <Image
+                src="/icons/bag.svg"
+                alt="Bag"
+                width={24}
+                height={24}
+                className="w-6 h-6"
+              />
+            </button>
           </div>
         </div>
 
@@ -62,10 +71,13 @@ export function Header({ data }: HeaderProps) {
           </div>
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <img
+            <Image
               src="/icons/sahara.svg"
               alt="Sahara"
+              width={140}
+              height={35}
               className="h-[35px] w-auto"
+              priority
             />
           </div>
 
@@ -79,16 +91,33 @@ export function Header({ data }: HeaderProps) {
             </div>
             <div className="flex items-center gap-5">
               {ICONS.map((icon) => (
-                <img
+                <button
                   key={icon.alt}
-                  src={icon.src}
-                  alt={icon.alt}
-                  className="w-5 h-5 cursor-pointer"
-                />
+                  type="button"
+                  aria-label={icon.alt}
+                  className="cursor-pointer"
+                >
+                  <Image
+                    src={icon.src}
+                    alt={icon.alt}
+                    width={20}
+                    height={20}
+                    className="w-5 h-5"
+                  />
+                </button>
               ))}
-              <div className="relative cursor-pointer">
-                <img src="/icons/bag.svg" alt="Bag" className="w-5 h-5" />
-              </div>
+              <button
+                className="relative cursor-pointer"
+                aria-label="Open Cart"
+              >
+                <Image
+                  src="/icons/bag.svg"
+                  alt="Bag"
+                  width={20}
+                  height={20}
+                  className="w-5 h-5"
+                />
+              </button>
             </div>
           </div>
         </div>
