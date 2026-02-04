@@ -88,7 +88,10 @@ export function StoryModal({
 
   if (isFullPage) {
     return (
-      <div className="relative min-h-screen flex items-end justify-center overscroll-none">
+      <div
+        className="relative flex items-end justify-center overscroll-none"
+        style={{ minHeight: "100svh" }}
+      >
         <Link
           href="/"
           className="absolute inset-0 bg-black/40 z-0"
@@ -96,7 +99,7 @@ export function StoryModal({
         />
         <div
           className="relative w-full bg-white rounded-t-2xl overflow-hidden z-10"
-          style={{ height: "850px", maxHeight: "90vh" }}
+          style={{ height: "850px", maxHeight: "90svh" }}
         >
           {renderContent()}
         </div>
@@ -117,7 +120,7 @@ export function StoryModal({
         className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl overflow-hidden transition-transform duration-300 ease-out ${
           isVisible ? "translate-y-0" : "translate-y-full"
         }`}
-        style={{ height: "850px", maxHeight: "90vh" }}
+        style={{ height: "850px", maxHeight: "90svh" }}
       >
         {renderContent()}
       </div>
