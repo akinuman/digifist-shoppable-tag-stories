@@ -30,7 +30,6 @@ export function StoryModal({
     setIsVisible(true);
   }, []);
 
-  // Lock background scroll when modal is open
   useLockScroll(true);
 
   const handleClose = () => {
@@ -93,10 +92,7 @@ export function StoryModal({
           className="absolute inset-0 bg-black/40 z-0"
           aria-label="Back to home"
         />
-        <div
-          className="relative w-full bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden z-10"
-          style={{ maxHeight: "85vh" }}
-        >
+        <div className="relative w-full h-[85vh] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden z-10">
           {renderContent()}
         </div>
       </div>
@@ -113,10 +109,9 @@ export function StoryModal({
       />
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden transition-transform duration-300 ease-out ${
+        className={`fixed inset-x-0 bottom-0 z-50 h-[85vh] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden transition-transform duration-300 ease-out ${
           isVisible ? "translate-y-0" : "translate-y-full"
         }`}
-        style={{ maxHeight: "85vh" }}
       >
         {renderContent()}
       </div>
