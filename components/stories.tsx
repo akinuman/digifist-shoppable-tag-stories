@@ -45,10 +45,6 @@ export function Stories({
 
   const totalMobilePages = Math.ceil(categories.length / MOBILE_ITEMS_PER_PAGE);
   const mobileStartIndex = mobilePageIndex * MOBILE_ITEMS_PER_PAGE;
-  const mobileCategories = categories.slice(
-    mobileStartIndex,
-    mobileStartIndex + MOBILE_ITEMS_PER_PAGE,
-  );
 
   const goToPrevPage = () => {
     setMobilePageIndex((prev) => Math.max(0, prev - 1));
