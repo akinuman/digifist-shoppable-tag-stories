@@ -53,7 +53,7 @@ export function StoryModal({
         {isFullPage ? (
           <Link
             href="/"
-            className="absolute top-6 right-0 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="absolute top-6 right-0 md:right-6 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
             <img src="/icons/close.svg" alt="Close" />
@@ -61,7 +61,7 @@ export function StoryModal({
         ) : (
           <button
             onClick={handleClose}
-            className="absolute top-4 right-0 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="absolute top-4 right-0 md:right-6 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
             <img src="/icons/close.svg" alt="Close" />
@@ -83,19 +83,16 @@ export function StoryModal({
 
   if (isFullPage) {
     return (
-      <div
-        className="relative flex items-end justify-center overscroll-none"
-        style={{ minHeight: "100svh" }}
-      >
+      <>
         <Link
           href="/"
-          className="absolute inset-0 bg-black/40 z-0"
+          className="fixed inset-0 bg-black/40 z-50"
           aria-label="Back to home"
         />
-        <div className="relative w-full h-[85vh] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden z-10">
+        <div className="fixed inset-x-0 bottom-0 z-50 h-[85vh] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden">
           {renderContent()}
         </div>
-      </div>
+      </>
     );
   }
 

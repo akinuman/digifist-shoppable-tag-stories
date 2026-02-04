@@ -1,3 +1,4 @@
+import { Header } from "@/components/header";
 import { SanityLive } from "@/sanity/lib/live";
 
 export default async function MainLayout({
@@ -9,6 +10,7 @@ export default async function MainLayout({
 }) {
   return (
     <>
+      <Header />
       <main>{children}</main>
       {modal}
       <SanityLive />
