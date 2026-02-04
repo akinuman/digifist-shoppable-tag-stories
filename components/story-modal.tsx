@@ -1,5 +1,6 @@
 "use client";
 
+import { useLockScroll } from "@/hooks/use-lock-scroll";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -29,20 +30,15 @@ export function StoryModal({
     setIsVisible(true);
   }, []);
 
+  // Lock background scroll when modal is open
+  useLockScroll(true);
+
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => {
       router.back();
     }, 300);
   };
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
-    };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, []);
 
   const renderContent = () => (
     <div className="h-full flex flex-col bg-white pb-6 md:pb-0">
@@ -98,8 +94,8 @@ export function StoryModal({
           aria-label="Back to home"
         />
         <div
-          className="relative w-full bg-white rounded-t-2xl overflow-hidden z-10"
-          style={{ height: "850px", maxHeight: "90svh" }}
+          className="relative w-full bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden z-10"
+          style={{ maxHeight: "85vh" }}
         >
           {renderContent()}
         </div>
@@ -117,10 +113,10 @@ export function StoryModal({
       />
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl overflow-hidden transition-transform duration-300 ease-out ${
+        className={`fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] overflow-hidden transition-transform duration-300 ease-out ${
           isVisible ? "translate-y-0" : "translate-y-full"
         }`}
-        style={{ height: "850px", maxHeight: "90svh" }}
+        style={{ maxHeight: "85vh" }}
       >
         {renderContent()}
       </div>
