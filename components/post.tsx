@@ -212,7 +212,7 @@ export function Post({ post }: PostProps) {
             href={post.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+            className="flex items-center max-w-max gap-2 px-4 py-2.5 border border-gray-200 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <Image
               src="/icons/instagram.svg"
