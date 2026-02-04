@@ -53,7 +53,7 @@ export function StoryModal({
         {isFullPage ? (
           <Link
             href="/"
-            className="absolute top-4 right-[-8px] w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
+            className="absolute top-3 right-3 w-10 h-10 md:flex cursor-pointer items-center justify-center text-gray-400 hover:text-gray-900 transition-colors"
             aria-label="Close"
           >
             <img src="/icons/close.svg" alt="Close" />
