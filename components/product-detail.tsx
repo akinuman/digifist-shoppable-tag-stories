@@ -158,7 +158,10 @@ export function ProductDetail({
             </button>
           </div>
 
-          <button className="bg-gray-900 font-figtree cursor-pointer text-[12px] text-white h-[50px] flex items-center justify-center gap-3 text-sm font-medium transition-colors">
+          <button
+            onClick={onBack}
+            className="bg-gray-900 font-figtree cursor-pointer text-[12px] text-white h-[50px] flex items-center justify-center gap-3 text-sm font-medium transition-colors hover:bg-black"
+          >
             ADD TO CART
           </button>
 
