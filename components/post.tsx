@@ -2,6 +2,7 @@
 
 import { useLockScroll } from "@/hooks/use-lock-scroll";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { MiniProductCard } from "./mini-product-card";
@@ -129,30 +130,48 @@ export function Post({ post }: PostProps) {
         </div>
 
         <div className="hidden md:block md:w-[313px] shrink-0 overflow-hidden">
-          {activeProduct ? (
-            <ProductDetail
-              product={activeProduct}
-              onBack={handleCloseProductDesktop}
-            />
-          ) : (
-            <div className="h-full overflow-y-auto">
-              <div className="flex flex-col gap-4">
-                {(post.productTags || []).map((tag) => (
-                  <button
-                    key={tag._key}
-                    onClick={() => handleTagClick(tag._key)}
-                    className="text-left w-full focus:outline-none"
-                  >
-                    <MiniProductCard
-                      product={tag.product}
-                      isHighlighted={activeTagKey === tag._key}
-                      isHovered={hoveredTagKey === tag._key}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+          <AnimatePresence mode="wait" initial={false}>
+            {activeProduct ? (
+              <motion.div
+                key="product-detail"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                className="h-full"
+              >
+                <ProductDetail
+                  product={activeProduct}
+                  onBack={handleCloseProductDesktop}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="product-list"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2 }}
+                className="h-full overflow-y-auto"
+              >
+                <div className="flex flex-col gap-4 p-2">
+                  {(post.productTags || []).map((tag) => (
+                    <button
+                      key={tag._key}
+                      onClick={() => handleTagClick(tag._key)}
+                      className="text-left w-full focus:outline-none"
+                    >
+                      <MiniProductCard
+                        product={tag.product}
+                        isHighlighted={activeTagKey === tag._key}
+                        isHovered={hoveredTagKey === tag._key}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <div className="md:hidden overflow-hidden">

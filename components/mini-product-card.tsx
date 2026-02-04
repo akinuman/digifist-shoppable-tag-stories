@@ -1,5 +1,6 @@
 import { CURRENCY_SYMBOLS } from "@/constants/CONST";
 import type { CATEGORY_WITH_POSTS_QUERYResult } from "@/sanity.types";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 type CategoryWithPosts = NonNullable<CATEGORY_WITH_POSTS_QUERYResult>;
@@ -36,10 +37,15 @@ export function MiniProductCard({
   const displayPrice = price ?? 0;
 
   return (
-    <div
-      className={`flex cursor-pointer items-center gap-4 relative bg-white border p-2 transition-all ${
-        isHovered ? "border-gray-900" : "border-[#E6E2E1]"
-      } ${isHighlighted ? "ring-2 ring-pink-400" : ""}`}
+    <motion.div
+      animate={{
+        borderColor: isHovered || isHighlighted ? "#111111" : "#E6E2E1",
+        backgroundColor: isHovered ? "#FAFAFA" : "#FFFFFF",
+      }}
+      transition={{ duration: 0.2 }}
+      className={`flex cursor-pointer items-center gap-4 relative border p-2 ${
+        isHighlighted ? "ring-2 ring-pink-400" : ""
+      }`}
     >
       <div className="relative w-[80px] h-[100px] shrink-0 overflow-hidden bg-gray-100">
         {thumbnailUrl ? (
@@ -79,6 +85,6 @@ export function MiniProductCard({
       <div className="bg-gray-900 p-2 absolute right-3 bottom-3">
         <img src="/icons/shopping-bag.svg" alt="Previous" />
       </div>
-    </div>
+    </motion.div>
   );
 }
