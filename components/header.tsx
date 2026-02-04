@@ -1,11 +1,19 @@
+import { ICONS } from "@/constants/header";
+import { HEADER_QUERYResult } from "@/sanity.types";
 import Link from "next/link";
 
-export function Header() {
+interface HeaderProps {
+  data: HEADER_QUERYResult;
+}
+
+export function Header({ data }: HeaderProps) {
+  const { freeShippingText, leftNavLinks, rightNavLinks } = data || {};
+
   return (
     <div className="flex flex-col w-full shrink-0">
       <div className="w-full py-1.5 flex items-center justify-center bg-[#F5EBDF]">
         <span className="font-harmonia text-[10px] uppercase tracking-widest text-gray-900 leading-none mt-0.5">
-          FREE SHIPPING ON US ORDERS OVER $150
+          {freeShippingText || "FREE SHIPPING ON US ORDERS OVER $150"}
         </span>
       </div>
 
@@ -35,9 +43,6 @@ export function Header() {
           <div className="w-6 flex justify-end">
             <div className="relative">
               <img src="/icons/bag.svg" alt="Bag" className="w-6 h-6" />
-              <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-white bg-gray-900 text-[9px] font-medium text-white">
-                2
-              </span>
             </div>
           </div>
         </div>
@@ -45,18 +50,15 @@ export function Header() {
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between px-14 h-[76px] relative">
           <div className="flex items-center gap-8">
-            <Link href="#" className="font-adobe text-sm text-gray-900">
-              Swimwear
-            </Link>
-            <Link href="#" className="font-adobe text-sm text-gray-900">
-              Lingerie
-            </Link>
-            <Link href="#" className="font-adobe text-sm text-gray-900">
-              Dresses
-            </Link>
-            <Link href="#" className="font-adobe text-sm text-gray-900">
-              Jumpsuits
-            </Link>
+            {leftNavLinks?.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href || "#"}
+                className="font-adobe text-[14px] text-gray-900"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -68,27 +70,22 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-6 text-[11px] font-harmonia text-gray-900 tracking-wide uppercase">
-              <Link href="#">UK|£</Link>
-              <Link href="#">Collections</Link>
-              <Link href="#">About</Link>
+            <div className="flex items-center gap-6 text-[14px] font-adobe text-gray-900 tracking-wide">
+              {rightNavLinks?.map((link) => (
+                <Link key={link.label} href={link.href || "#"}>
+                  {link.label}
+                </Link>
+              ))}
             </div>
             <div className="flex items-center gap-5">
-              <img
-                src="/icons/search.svg"
-                alt="Search"
-                className="w-5 h-5 cursor-pointer"
-              />
-              <img
-                src="/icons/whislist.svg"
-                alt="Wishlist"
-                className="w-5 h-5 cursor-pointer"
-              />
-              <img
-                src="/icons/profile.svg"
-                alt="Profile"
-                className="w-5 h-5 cursor-pointer"
-              />
+              {ICONS.map((icon) => (
+                <img
+                  key={icon.alt}
+                  src={icon.src}
+                  alt={icon.alt}
+                  className="w-5 h-5 cursor-pointer"
+                />
+              ))}
               <div className="relative cursor-pointer">
                 <img src="/icons/bag.svg" alt="Bag" className="w-5 h-5" />
               </div>

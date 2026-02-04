@@ -8,6 +8,7 @@ import {
   CATEGORY_SLUGS_QUERY,
   CATEGORY_WITH_POSTS_QUERY,
   FIRST_BRAND_WITH_CATEGORIES_QUERY,
+  HEADER_QUERY,
 } from "@/sanity/queries/shoppable-stories";
 
 /**
@@ -50,3 +51,14 @@ export const fetchCategorySlugs =
 
     return data || [];
   };
+
+/**
+ * Fetch header content
+ */
+export const fetchHeader = async () => {
+  const { data } = await sanityFetch({
+    query: HEADER_QUERY,
+  });
+
+  return data;
+};

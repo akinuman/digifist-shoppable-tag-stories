@@ -7,6 +7,7 @@ import { groq } from "next-sanity";
 /**
  * Get the first brand with all its story categories (for homepage)
  */
+
 export const FIRST_BRAND_WITH_CATEGORIES_QUERY = groq`
   *[_type == "brand"][0] {
     _id,
@@ -273,6 +274,27 @@ export const SHOPPABLE_POST_QUERY = groq`
           }
         }
       }
+    }
+  }
+`;
+
+// =============================================================================
+// HEADER QUERIES
+// =============================================================================
+
+/**
+ * Get the header content (singleton)
+ */
+export const HEADER_QUERY = groq`
+  *[_type == "header"][0] {
+    freeShippingText,
+    leftNavLinks[] {
+      label,
+      href
+    },
+    rightNavLinks[] {
+      label,
+      href
     }
   }
 `;

@@ -50,6 +50,25 @@ export type ProductVariant = {
   }>;
 };
 
+export type Header = {
+  _id: string;
+  _type: "header";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  freeShippingText?: string;
+  leftNavLinks?: Array<{
+    label?: string;
+    href?: string;
+    _key: string;
+  }>;
+  rightNavLinks?: Array<{
+    label?: string;
+    href?: string;
+    _key: string;
+  }>;
+};
+
 export type ShoppablePost = {
   _id: string;
   _type: "shoppablePost";
@@ -334,26 +353,8 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = ProductVariant | ShoppablePost | SanityImageCrop | SanityImageHotspot | Product | Slug | StoryCategory | Brand | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = ProductVariant | Header | ShoppablePost | SanityImageCrop | SanityImageHotspot | Product | Slug | StoryCategory | Brand | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./app/(main)/page.tsx
-// Variable: query
-// Query: *[_type == "brand"][0] {      _id,      name,      displayName,      instagramHandle,      instagramUrl,      "categories": *[_type == "storyCategory" && brand._ref == ^._id] | order(order asc) {        _id,        name,        "slug": slug.current,        "thumbnailUrl": thumbnail.asset->url,        "postCount": count(*[_type == "shoppablePost" && category._ref == ^._id])      }    }
-export type QueryResult = {
-  _id: string;
-  name: string | null;
-  displayName: string | null;
-  instagramHandle: string | null;
-  instagramUrl: string | null;
-  categories: Array<{
-    _id: string;
-    name: string | null;
-    slug: string | null;
-    thumbnailUrl: string | null;
-    postCount: number;
-  }>;
-} | null;
-
 // Source: ./app/sitemap.ts
 // Variable: pagesQuery
 // Query: *[_type == 'page'] | order(slug.current) {      'url': $baseUrl + select(slug.current == 'index' => '', '/' + slug.current),      'lastModified': _updatedAt,      'changeFrequency': 'daily',      'priority': select(        slug.current == 'index' => 1,        0.5      )    }
@@ -585,12 +586,24 @@ export type SHOPPABLE_POST_QUERYResult = {
     } | null;
   }> | null;
 } | null;
+// Variable: HEADER_QUERY
+// Query: *[_type == "header"][0] {    freeShippingText,    leftNavLinks[] {      label,      href    },    rightNavLinks[] {      label,      href    }  }
+export type HEADER_QUERYResult = {
+  freeShippingText: string | null;
+  leftNavLinks: Array<{
+    label: string | null;
+    href: string | null;
+  }> | null;
+  rightNavLinks: Array<{
+    label: string | null;
+    href: string | null;
+  }> | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n    *[_type == \"brand\"][0] {\n      _id,\n      name,\n      displayName,\n      instagramHandle,\n      instagramUrl,\n      \"categories\": *[_type == \"storyCategory\" && brand._ref == ^._id] | order(order asc) {\n        _id,\n        name,\n        \"slug\": slug.current,\n        \"thumbnailUrl\": thumbnail.asset->url,\n        \"postCount\": count(*[_type == \"shoppablePost\" && category._ref == ^._id])\n      }\n    }\n  ": QueryResult;
     "\n    *[_type == 'page'] | order(slug.current) {\n      'url': $baseUrl + select(slug.current == 'index' => '', '/' + slug.current),\n      'lastModified': _updatedAt,\n      'changeFrequency': 'daily',\n      'priority': select(\n        slug.current == 'index' => 1,\n        0.5\n      )\n    }\n  ": PagesQueryResult;
     "\n    *[_type == 'post'] | order(_updatedAt desc) {\n      'url': $baseUrl + '/blog/' + slug.current,\n      'lastModified': _updatedAt,\n      'changeFrequency': 'weekly',\n      'priority': 0.7\n    }\n  ": PostsQueryResult;
     "\n  *[_type == \"brand\"][0] {\n    _id,\n    name,\n    displayName,\n    \"logoUrl\": logo.asset->url,\n    instagramHandle,\n    instagramUrl,\n    sectionTitle,\n    \"categories\": *[_type == \"storyCategory\" && brand._ref == ^._id] | order(order asc) {\n      _id,\n      name,\n      \"slug\": slug.current,\n      \"thumbnailUrl\": thumbnail.asset->url,\n      \"postCount\": count(*[_type == \"shoppablePost\" && category._ref == ^._id])\n    }\n  }\n": FIRST_BRAND_WITH_CATEGORIES_QUERYResult;
@@ -602,5 +615,6 @@ declare module "@sanity/client" {
     "\n  *[_type == \"product\" && _id == $productId][0] {\n    _id,\n    title,\n    \"slug\": slug.current,\n    price,\n    compareAtPrice,\n    currency,\n    \"thumbnailUrl\": thumbnail.asset->url,\n    \"images\": images[].asset->url,\n    shopUrl,\n    variants[] {\n      _key,\n      colorName,\n      \"colorImageUrl\": colorImage.asset->url,\n      sizes[] {\n        _key,\n        size,\n        stock,\n        sku\n      },\n      \"variantImages\": variantImages[].asset->url\n    }\n  }\n": PRODUCT_BY_ID_QUERYResult;
     "\n  *[_type == \"product\"] | order(title asc) {\n    _id,\n    title,\n    \"slug\": slug.current,\n    price,\n    compareAtPrice,\n    currency,\n    \"thumbnailUrl\": thumbnail.asset->url,\n    brand-> {\n      _id,\n      displayName\n    }\n  }\n": ALL_PRODUCTS_QUERYResult;
     "\n  *[_type == \"shoppablePost\" && _id == $postId][0] {\n    _id,\n    title,\n    \"imageUrl\": mainImage.asset->url,\n    \"imageAspectRatio\": mainImage.asset->metadata.dimensions.aspectRatio,\n    caption,\n    hashtags,\n    instagramUrl,\n    category-> {\n      _id,\n      name,\n      \"slug\": slug.current,\n      brand-> {\n        _id,\n        displayName,\n        \"logoUrl\": logo.asset->url\n      }\n    },\n    productTags[] {\n      _key,\n      x,\n      y,\n      product-> {\n        _id,\n        title,\n        \"slug\": slug.current,\n        price,\n        compareAtPrice,\n        currency,\n        \"thumbnailUrl\": thumbnail.asset->url,\n        shopUrl,\n        variants[] {\n          _key,\n          colorName,\n          \"colorImageUrl\": colorImage.asset->url,\n          sizes[] {\n            _key,\n            size,\n            stock,\n            sku\n          }\n        }\n      }\n    }\n  }\n": SHOPPABLE_POST_QUERYResult;
+    "\n  *[_type == \"header\"][0] {\n    freeShippingText,\n    leftNavLinks[] {\n      label,\n      href\n    },\n    rightNavLinks[] {\n      label,\n      href\n    }\n  }\n": HEADER_QUERYResult;
   }
 }

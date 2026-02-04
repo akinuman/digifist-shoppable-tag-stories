@@ -33,6 +33,18 @@ export const structure = (S: any, context: any) =>
       S.divider(),
 
       S.listItem()
+        .title("Header")
+        .schemaType("header")
+        .child(
+          S.document()
+            .schemaType("header")
+            .documentId("header")
+            .title("Header Settings"),
+        ),
+
+      S.divider(),
+
+      S.listItem()
         .title("Products")
         .schemaType("product")
         .icon(ShoppingBag)
