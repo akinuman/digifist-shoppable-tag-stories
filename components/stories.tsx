@@ -95,9 +95,19 @@ export function Stories({
           className="grid grid-cols-2 grid-rows-3 gap-6 justify-items-center content-start"
           style={{ minHeight: "660px" }}
         >
-          {mobileCategories.map((category) => (
-            <StoryCircle key={category._id} category={category} />
-          ))}
+          {categories.map((category, index) => {
+            const isVisible =
+              index >= mobileStartIndex &&
+              index < mobileStartIndex + MOBILE_ITEMS_PER_PAGE;
+            return (
+              <div
+                key={category._id}
+                className={isVisible ? "contents" : "hidden"}
+              >
+                <StoryCircle category={category} />
+              </div>
+            );
+          })}
         </div>
 
         {totalMobilePages > 1 && (
