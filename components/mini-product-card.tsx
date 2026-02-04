@@ -10,11 +10,13 @@ type Product = ProductTag["product"];
 interface ProductCardProps {
   product: Product;
   isHighlighted?: boolean;
+  isHovered?: boolean;
 }
 
 export function MiniProductCard({
   product,
   isHighlighted = false,
+  isHovered = false,
 }: ProductCardProps) {
   if (!product) {
     return null;
@@ -35,9 +37,9 @@ export function MiniProductCard({
 
   return (
     <div
-      className={`flex cursor-pointer items-center gap-4 relative bg-white border border-[#E6E2E1] p-2 transition-all ${
-        isHighlighted ? "ring-2 ring-pink-400" : ""
-      }`}
+      className={`flex cursor-pointer items-center gap-4 relative bg-white border p-2 transition-all ${
+        isHovered ? "border-gray-900" : "border-[#E6E2E1]"
+      } ${isHighlighted ? "ring-2 ring-pink-400" : ""}`}
     >
       <div className="relative w-[80px] h-[100px] shrink-0 overflow-hidden bg-gray-100">
         {thumbnailUrl ? (

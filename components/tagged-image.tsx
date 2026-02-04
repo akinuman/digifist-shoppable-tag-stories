@@ -11,6 +11,8 @@ interface ProductTagDotProps {
   y: number;
   isActive?: boolean;
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
 export function ProductTagDot({
@@ -18,10 +20,14 @@ export function ProductTagDot({
   y,
   isActive = false,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
 }: ProductTagDotProps) {
   return (
     <button
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className={`absolute cursor-pointer w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all z-10 ${
         isActive ? "border border-gray-900 bg-white" : "bg-white"
       }`}
@@ -42,6 +48,8 @@ interface ShoppableImageProps {
   productTags: Post["productTags"];
   activeTagKey?: string | null;
   onTagClick?: (tagKey: string) => void;
+  onTagMouseEnter?: (tagKey: string) => void;
+  onTagMouseLeave?: (tagKey: string) => void;
 }
 
 export function TaggedImage({
@@ -50,6 +58,8 @@ export function TaggedImage({
   productTags,
   activeTagKey,
   onTagClick,
+  onTagMouseEnter,
+  onTagMouseLeave,
 }: ShoppableImageProps) {
   const validTags = (productTags || []).filter((tag) => tag.x && tag.y);
 
@@ -78,6 +88,8 @@ export function TaggedImage({
           y={tag.y || 0}
           isActive={activeTagKey === tag._key}
           onClick={() => onTagClick?.(tag._key)}
+          onMouseEnter={() => onTagMouseEnter?.(tag._key)}
+          onMouseLeave={() => onTagMouseLeave?.(tag._key)}
         />
       ))}
 

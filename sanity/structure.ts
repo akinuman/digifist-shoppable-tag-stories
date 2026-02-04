@@ -5,7 +5,6 @@ export const structure = (S: any, context: any) =>
   S.list()
     .title("Shoppable Tag Stories")
     .items([
-      // Main Content
       S.listItem()
         .title("Brands")
         .schemaType("brand")

@@ -17,6 +17,7 @@ interface PostProps {
 
 export function Post({ post }: PostProps) {
   const [activeTagKey, setActiveTagKey] = useState<string | null>(null);
+  const [hoveredTagKey, setHoveredTagKey] = useState<string | null>(null);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
 
   const activeProduct = post?.productTags?.find(
@@ -47,6 +48,14 @@ export function Post({ post }: PostProps) {
     } else {
       handleOpenProduct(key);
     }
+  };
+
+  const handleTagMouseEnter = (key: string) => {
+    setHoveredTagKey(key);
+  };
+
+  const handleTagMouseLeave = () => {
+    setHoveredTagKey(null);
   };
 
   if (!post) {
@@ -113,6 +122,8 @@ export function Post({ post }: PostProps) {
               productTags={post.productTags}
               activeTagKey={activeTagKey}
               onTagClick={handleTagClick}
+              onTagMouseEnter={handleTagMouseEnter}
+              onTagMouseLeave={handleTagMouseLeave}
             />
           </div>
         </div>
@@ -135,6 +146,7 @@ export function Post({ post }: PostProps) {
                     <MiniProductCard
                       product={tag.product}
                       isHighlighted={activeTagKey === tag._key}
+                      isHovered={hoveredTagKey === tag._key}
                     />
                   </button>
                 ))}
@@ -154,6 +166,7 @@ export function Post({ post }: PostProps) {
                 <MiniProductCard
                   product={tag.product}
                   isHighlighted={activeTagKey === tag._key}
+                  isHovered={hoveredTagKey === tag._key}
                 />
               </button>
             ))}
